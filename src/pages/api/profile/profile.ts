@@ -9,6 +9,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return
   }
 
+  console.log(req.body)
   const session = await getSession({
     req,
   })

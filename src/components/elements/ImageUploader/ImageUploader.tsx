@@ -163,8 +163,8 @@ export default function ImageUploader() {
       body: formData,
     });
 
-    if (res.ok) {
-      console.log('File uploaded successfully');
+    if (res) {
+      console.log(res);
     } else {
       console.error('Failed to upload file');
     }

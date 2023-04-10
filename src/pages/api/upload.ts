@@ -32,7 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         console.error(err);
         res.status(500).json({ error: 'Failed to upload file' });
       } else {
-        res.status(200).json({ success: true });
+        res.status(200).json({ url: `/public/uploads/${req.file.filename}` });
       }
     });
   } else {
