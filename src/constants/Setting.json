@@ -1,0 +1,138 @@
+[
+   [
+    {
+      "name": "Language",
+      "options": ["English", "German", "Russian", "Ukraine"]
+    },
+    {
+      "name": "Modus",
+      "options": ["Night", "Day", "Automatic"]
+    },
+    {
+      "name": "Status",
+      "options": ["Inaccessible", "Ready to help", "Busy", "Automatic"]
+    },
+    {
+      "name": "Show your firstname",
+      "options": ["All", "Contacts only", "No one"]
+    },
+    {
+      "name": "Show your lastname",
+      "options": ["All", "Contacts only", "No one"]
+    },
+    {
+      "name": "Show your email",
+      "options": ["All", "Contacts only", "No one"]
+    },
+    {
+      "name": "Show your telephone",
+      "options": ["All", "Contacts only", "No one"]
+    },
+    {
+      "name": "Show personal analyse",
+      "options": ["All", "Only your contacts", "Nobody"]
+    }
+  ],
+  [
+    {
+      "name": "Sprache",
+      "options": ["Englisch", "Deutsch", "Russisch", "Ukraine"]
+    },
+    {
+      "name": "Modus",
+      "options": ["Nacht", "Tag", "Automatisch"]
+    },
+    {
+      "name": "Status",
+      "options": ["Nicht zugänglich", "Bereit zu helfen", "Beschäftigt", "Automatisch"]
+    },
+    {
+      "name": "Zeigen Sie Ihren Vornamen",
+      "options": ["Alle", "Nur Kontakte", "Niemand"]
+    },
+    {
+      "name": "Zeigen Sie Ihren Nachnamen",
+      "options": ["Alle", "Nur Kontakte", "Niemand"]
+    },
+    {
+      "name": "Zeigen Sie Ihre E-Mail",
+      "options": ["Alle", "Nur Kontakte", "Niemand"]
+    },
+    {
+      "name": "Zeigen Sie Ihr Telefon",
+      "options": ["Alle", "Nur Kontakte", "Niemand"]
+    },
+    {
+      "name": "Persönliche Analyse anzeigen",
+      "options": ["Alle", "Nur Ihre Kontakte", "Niemand"]
+    }
+  ],
+  [
+    {
+      "name": "Язык",
+      "options": ["Английский", "Немецкий", "Русский", "Украина"]
+    },
+    {
+      "name": "Модус",
+      "options": ["Ночь", "День", "автоматический"]
+    },
+    {
+      "name": "Положение дел",
+      "options": ["недоступный", "Готовы помочь", "Занятый", "автоматический"]
+    },
+    {
+      "name": "Покажи свое имя",
+      "options": ["Все", "Только контакты", "Никто"]
+    },
+    {
+      "name": "Покажи свою фамилию",
+      "options": ["Все", "Только контакты", "Никто"]
+    },
+    {
+      "name": "Показать свой адрес электронной почты",
+      "options": ["Все", "Только контакты", "Никто"]
+    },
+    {
+      "name": "Покажи свой телефон",
+      "options": ["Все", "Только контакты", "Никто"]
+    },
+    {
+      "name": "Показать личный анализ",
+      "options": ["Все", "Только ваши контакты", "Никто"]
+    }
+  ],
+  [
+    {
+      "name": "Язык",
+      "options": ["Английский", "Немецкий", "Русский", "Украина"]
+    },
+    {
+      "name": "Модус",
+      "options": ["Ночь", "День", "автоматический"]
+    },
+    {
+      "name": "Положение дел",
+      "options": ["недоступный", "Готовы помочь", "Занятый", "автоматический"]
+    },
+    {
+      "name": "Покажи свое имя",
+      "options": ["Все", "Только контакты", "Никто"]
+    },
+    {
+      "name": "Покажи свою фамилию",
+      "options": ["Все", "Только контакты", "Никто"]
+    },
+    {
+      "name": "Показать свой адрес электронной почты",
+      "options": ["Все", "Только контакты", "Никто"]
+    },
+    {
+      "name": "Покажи свой телефон",
+      "options": ["Все", "Только контакты", "Никто"]
+    },
+    {
+      "name": "Показать личный анализ",
+      "options": ["Все", "Только ваши контакты", "Никто"]
+    }
+  ]
+]

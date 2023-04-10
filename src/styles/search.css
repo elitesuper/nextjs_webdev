@@ -1,0 +1,45 @@
+.search {
+  background-color: white;
+  width: 100%;
+  text-align: left;
+  align-self: baseline;
+}
+
+.search .header {
+  background-color: rgb(80, 89, 93);
+  padding: 20px;
+}
+
+.main {
+  color: black;
+  padding: 20px;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.maps {
+  /* border-top: 1px solid gray;
+  border-bottom: 1px solid gray; */
+  text-align: center;
+  margin: 10px 0;
+}
+
+.list {
+  color: black;
+}
+
+.list .item {
+  border-top: 1px solid gray;
+  display: flex;
+  padding: 5px 15px;
+  align-items: center;
+}
+
+.list .item .name {
+  flex: 1;
+  font-size: 16px;
+}

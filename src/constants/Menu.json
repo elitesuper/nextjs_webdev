@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "name": "contact", "href": "/messages?group=2" },
+    { "name": "calendar", "href": "/calendar" },
+    { "name": "main", "href": "/dashboard" },
+    { "name": "project", "href": "/projects" },
+    { "name": "create", "href": "/create" }
+  ]
+}

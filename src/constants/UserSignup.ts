@@ -1,0 +1,2 @@
+export const PASSWORD_HASH_LENGTH = 12
+export const MINIMAL_PASSWORD_LENGTH = 7

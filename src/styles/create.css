@@ -1,0 +1,71 @@
+.create {
+  background-color: white;
+  width: 100%;
+  text-align: left;
+  align-self: baseline;
+}
+
+.create .header {
+  background-color: rgb(80, 89, 93);
+  padding: 20px;
+}
+
+.main {
+  color: black;
+  padding: 20px;
+}
+
+.main .feeling {
+  display: flex;
+  align-items: center;
+}
+
+.example {
+  margin-top: 20px;
+  display: flex;
+}
+
+.example > span {
+  flex: 1;
+}
+
+.example .item {
+  width: 100px;
+  height: 100px;
+  border: 1px solid grey;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.location,
+.calendar,
+.timer {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.list {
+  margin-top: 20px;
+  color: black;
+}
+
+.list .item {
+  border-top: 1px solid gray;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+}
+
+.list .item .name {
+  flex: 1;
+}
