@@ -14,6 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     req,
   })
 
+
   const { firstName, lastName, company, telephone, address, profession, education, hobby } = req.body
   const client = await connectToDatabase()
 

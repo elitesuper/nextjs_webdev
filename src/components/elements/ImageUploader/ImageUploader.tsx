@@ -2,6 +2,10 @@ import React, {useState, useEffect} from 'react'
 
 export default function ImageUploader() {
 
+
+  useEffect(()=>{
+    getpic()
+  },[])
   useEffect(() => {
     function ekUpload(){
       function Init() {
@@ -158,20 +162,45 @@ export default function ImageUploader() {
   }, [])
 
   async function asyncupload(formData) {
-    const res = await fetch('/api/upload', {
+    await fetch('/api/upload', {
       method: 'POST',
       body: formData,
-    });
-
-    if (res) {
-      console.log(res);
-    } else {
+    }).then(response=>response.json()).then(data=>{
+      // console.log(res);
+      // console.log(data.path);
+      // getpic()
+      document.getElementById('file-image').src = data.path;
+    }).catch(err=>{
       console.error('Failed to upload file');
-    }
+    })
   }
 
  function uploadstart (formData){
   asyncupload(formData)
+ }
+
+ function getpic (){
+    loadpic()
+ }
+
+ async function loadpic () {
+  await fetch('api/user/currentUser').then(res=>res.json()).then(
+    res => {
+      const path:any = res.data[0].profilepic;
+      if(path != null && path != ""){
+        document.getElementById('start').classList.add("hidden");
+        document.getElementById('response').classList.remove("hidden");
+        document.getElementById('notimage').classList.add("hidden");
+        document.getElementById('file-image').classList.remove("hidden");
+        document.getElementById('file-image').src = path;
+      }
+
+    }
+  ).catch(
+    err =>{
+      
+    }
+  )
  }
   
   return (

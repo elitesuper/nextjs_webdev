@@ -27,12 +27,19 @@ export const config = {
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
+
+    const session = await getSession({
+      req,
+    })
+  
     upload.single('file')(req, res, (err) => {
       if (err) {
         console.error(err);
         res.status(500).json({ error: 'Failed to upload file' });
       } else {
-        res.status(200).json({ url: `/public/uploads/${req.file.filename}` });
+        const url:any = `/uploads/${req.file.filename}`
+        updateprofile(url, session)
+        res.status(200).json({ path: `/uploads/${req.file.filename}` });
       }
     });
   } else {
@@ -41,4 +48,23 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 }
 
+function updateprofile(path:any, session:any){
+  updatepicpath(path, session);
+}
+async function updatepicpath(path:any, session:any){
+  const client = await connectToDatabase()
+  const usersCollection = client.db().collection('users')
+  const profilepic = path;
+
+  await usersCollection.updateOne(
+    {
+      email: session?.user?.email,
+    },
+    {
+      $set: {
+        profilepic
+      },
+    }
+  )
+}
 export default handler
