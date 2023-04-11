@@ -14,6 +14,8 @@ import '../styles/search.css'
 import ColorModeContext from 'context/ColorModeContext'
 import { SessionProvider } from 'next-auth/react'
 import SnackbarContext, { Snack } from 'context/SnackbarContext'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import DateFnsUtils from '@date-io/date-fns'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [mode, setMode] = React.useState<PaletteMode>('dark')
@@ -64,6 +66,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
+    <LocalizationProvider dateAdapter={DateFnsUtils}>
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <SessionProvider session={pageProps.session}>
@@ -102,5 +105,6 @@ export default function App({ Component, pageProps }: AppProps) {
         </SessionProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
+    </LocalizationProvider>
   )
 }

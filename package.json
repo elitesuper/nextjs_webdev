@@ -14,6 +14,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@date-io/date-fns": "^2.16.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
@@ -29,6 +30,7 @@
     "bcryptjs": "^2.4.3",
     "browser-cookies": "^1.2.0",
     "classnames": "^2.3.2",
+    "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
     "eslint-plugin-react": "^7.31.11",
     "jotai": "^2.0.3",

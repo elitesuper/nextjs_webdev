@@ -17,9 +17,31 @@ import { getSession } from 'next-auth/react'
 import {language} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
+import { useState } from 'react'
+import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 
 export default function Home() {
   const [lang, setLanguage] = useAtom(language)
+  const [slideValue, setSlideValue] = useState(0)
+  const [data, setData] = useState([])
+
+  const[can, setCan] = useState({slideValue:0, when:null, from:null, until:null, desc:""});
+
+  const handleWhenDateChange = (date:any) =>{
+    setCan({...can, when:date})
+  }
+  const handleFromTimeChange = (time:any) =>{
+    setCan({...can, from:time})
+  }
+  const handleUntilTimeChange = (time:any) =>{
+    setCan({...can, until:time})
+  }
+
+  const submitpublishorsave = () => {
+    if(can.desc == "")
+      return;
+    setData([...data, can])
+  }
   return (
     <BasicLayout title="Create">
       <div className="page">
@@ -31,6 +53,7 @@ export default function Home() {
               id="input-with-icon-textfield"
               sx={{
                 width: '100%',
+                color:'black !important',
                 'background-color': 'white',
               }}
               variant="outlined"
@@ -47,33 +70,34 @@ export default function Home() {
             <div className="feeling">
               <span>{languagejson[lang].Bad}</span>
               <Slider
-                value={30}
+                value={slideValue}
                 color="secondary"
                 sx={{
                   display: 'inline',
                   flex: 1,
                   margin: '0 30px',
                 }}
+                onChange={e=>setCan({...can, slideValue:e.target.value})}
               />
               <span>{languagejson[lang].Verygood}</span>
             </div>
             <div className="example">
               <span>{languagejson[lang].Showexample}:</span>
-              <div className="item">
+              <div className="item create_example_btn" onClick={()=>{alert("Voice Open")}}>
                 <CameraAltIcon
                   sx={{
                     fontSize: 80,
                   }}
                 />
               </div>
-              <div className="item">
+              <div className="item create_example_btn" onClick={()=>{alert("Voice Open")}}>
                 <KeyboardVoiceIcon
                   sx={{
                     fontSize: 80,
                   }}
                 />
               </div>
-              <div className="item">
+              <div className="item create_example_btn" onClick={()=>{alert("Folder Open")}}>
                 <FolderOpenIcon
                   sx={{
                     fontSize: 80,
@@ -112,19 +136,20 @@ export default function Home() {
                   marginRight: '20px',
                 }}
               />
-              <TextField
-                placeholder="When?"
-                id="input-with-icon-textfield"
-                sx={{
+              <DatePicker 
+                label="When"
+                value={can.when}
+                onChange={handleWhenDateChange}
+                renderInput={(props) => <TextField sx={{
                   marginRight: '20px',
-                }}
-                variant="outlined"
+                  // border:'solid 2px gray',
+                }} {...props} />}
               />
               <TextField
                 placeholder="how often"
                 id="input-with-icon-textfield"
                 sx={{
-                  marginRight: '20px',
+                  marginRight: '20px'
                 }}
                 variant="outlined"
               />
@@ -136,13 +161,15 @@ export default function Home() {
                   marginRight: '20px',
                 }}
               />
-              <TextField
-                placeholder="from"
+              <TimePicker
+                value={can.from}
+                onChange={handleFromTimeChange}
                 id="input-with-icon-textfield"
                 variant="outlined"
-                sx={{
+                renderInput={(props) => <TextField sx={{
                   marginRight: '20px',
-                }}
+                  // border:'solid 2px gray',
+                }} {...props} />}
               />
               <span
                 style={{
@@ -150,16 +177,20 @@ export default function Home() {
                 }}>
                 -
               </span>
-              <TextField
-                placeholder="until"
+              <TimePicker
+                value={can.until}
+                onChange={handleUntilTimeChange}
                 id="input-with-icon-textfield"
-                sx={{
-                  marginRight: '20px',
-                }}
                 variant="outlined"
+                renderInput={(props) => <TextField sx={{
+                  marginLeft: '20px',
+                  // border:'solid 2px gray',
+                }} {...props} />}
               />
             </div>
             <TextField
+              value={can.desc}
+              onChange={e=>{setCan({can, desc:e.target.value})}}
               id="outlined-multiline-static"
               multiline
               sx={{
@@ -174,6 +205,7 @@ export default function Home() {
                 sx={{
                   width: '150px',
                 }}
+                onClick={()=>{submitpublishorsave()}}
                 variant="contained">
                 {languagejson[lang].Publish}
               </Button>
@@ -195,21 +227,25 @@ export default function Home() {
             </div>
           </div>
           <div className="list">
-            {['Moderate weddings', 'Rent a bike', 'Deliver a package'].map(
-              (text) => (
-                <div className="item" key={text}>
-                  <span className="name">{text}</span>
+            {data.length > 0 && data.map(
+              (item, index) => (
+                <div className="item" key={index}>
+                  <span className="name">{item.desc}</span>
                   <ChatBubbleOutlineIcon
                     sx={{
                       fontSize: 40,
                       marginLeft: '20px',
+                      cursor:'pointer'
                     }}
+                    onClick={()=>{alert("Chat!")}}
                   />
                   <SendIcon
                     sx={{
                       fontSize: 40,
                       marginLeft: '20px',
+                      cursor:'pointer'
                     }}
+                    onClick={()=>{alert("Send!")}}
                   />
                 </div>
               )
