@@ -94,6 +94,7 @@ async function loadpic () {
       setEmail(res.data[0].email);
       setFirstName(res.data[0].firstName);
       setLastName(res.data[0].lastName);
+      setCompany(res.data[0].company);
       setTelephone(res.data[0].telephone);
       setAddress(res.data[0].address);
       setProfession(res.data[0].profession);
@@ -309,12 +310,13 @@ async function loadpic () {
               </Button>
             </div>
             <Collapse in={open}>
-              <TextField fullWidth margin="normal" label="Firstname" onChange={e => {setFirstName(e.target.value)}}/>
-              <TextField fullWidth margin="normal" label="Surname" onChange={e => {setLastName(e.target.value)}}/>
+              <TextField fullWidth value={firstName} margin="normal" label="Firstname" onChange={e => {setFirstName(e.target.value)}}/>
+              <TextField fullWidth value={lastName} margin="normal" label="Surname" onChange={e => {setLastName(e.target.value)}}/>
               <TextField
                 fullWidth
                 margin="normal"
                 label="Firma"
+                value={company}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -328,6 +330,7 @@ async function loadpic () {
                 fullWidth
                 margin="normal"
                 label="Telephone number"
+                value={telephone}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -337,10 +340,10 @@ async function loadpic () {
                 }}
                 onChange={e => {setTelephone(e.target.value)}}
               />
-              <TextField fullWidth margin="normal" label="Address" onChange={e => {setAddress(e.target.value)}}/>
-              <TextField fullWidth margin="normal" label="Profession" onChange={e => {setProfession(e.target.value)}}/>
-              <TextField fullWidth margin="normal" label="Education" onChange={e => {setEducation(e.target.value)}}/>
-              <TextField fullWidth margin="normal" label="Hobby" onChange={e => {setHobby(e.target.value)}}/>
+              <TextField fullWidth value={address} margin="normal" label="Address" onChange={e => {setAddress(e.target.value)}}/>
+              <TextField fullWidth value={profession} margin="normal" label="Profession" onChange={e => {setProfession(e.target.value)}}/>
+              <TextField fullWidth value={education} margin="normal" label="Education" onChange={e => {setEducation(e.target.value)}}/>
+              <TextField fullWidth value={hobby} margin="normal" label="Hobby" onChange={e => {setHobby(e.target.value)}}/>
               <ButtonGroup variant="contained" sx={{ mt: 2 }} fullWidth>
                 <Button onClick={saveProfile}>{languagejson[lang].Savechanges}</Button>
                 <Button>{languagejson[lang].Jointheclub}</Button>
