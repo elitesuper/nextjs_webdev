@@ -1,13 +1,22 @@
 import FullLayout from '@layouts/FullLayout/FullLayout'
+import dynamic from 'next/dynamic'
 import { AvTimer } from '@mui/icons-material'
 import { Box } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { NextApiRequest } from 'next'
 import { getSession } from 'next-auth/react'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Image from 'next/image'
 
 export default function Project() {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
+
   return (
     <FullLayout title="Project 3" menubar={false}>
       <Box sx={{ display: 'flex', p: 2 }}>
