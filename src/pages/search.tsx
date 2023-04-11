@@ -239,6 +239,7 @@ export default function Home() {
                       sx={{
                         fontSize: 24,
                         marginLeft: '20px',
+                        cursor:'pointer'
                       }}
                     />
                   ) : null}
@@ -246,12 +247,14 @@ export default function Home() {
                     sx={{
                       fontSize: 24,
                       marginLeft: '20px',
+                      cursor:'pointer'
                     }}
                   />
                   <AvTimer
                     sx={{
                       fontSize: 24,
                       marginLeft: '20px',
+                      cursor:'pointer'
                     }}
                   />
                 </div>

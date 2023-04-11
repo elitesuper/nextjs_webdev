@@ -127,7 +127,7 @@ export default function SignIn() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={languagejson[lang].EmailAddress}
             name="email"
             autoComplete="email"
             autoFocus
@@ -139,7 +139,7 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={languagejson[lang].Password}
             type="password"
             id="password"
             autoComplete="current-password"
