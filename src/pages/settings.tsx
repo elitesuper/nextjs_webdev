@@ -30,10 +30,38 @@ function SimpleDialog(props: SimpleDialogProps) {
   }
 
   const handleListItemClick = (value: number) => {
+
+    // const { language: lang, modus: modus, status: status, show_firstname: firstname, show_lastname: lastname, show_email: email, show_telephone: telephone, show_analyse: personalAnalysis,}
     onClose(value)
     console.log(value)
   }
 
+
+  async function setSetting(settings: object) {
+    const response = await fetch('/api/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify(settings),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  
+    const data = await response.json()
+  
+    if (!response.ok) {
+      return {
+        status: 'error',
+        data: data.message || 'Something went wrong!',
+      }
+    }
+  
+    return {
+      status: 'success',
+      data: 'Please verify with the code that is sent to your email.',
+    }
+  }
+
+  
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>{title}</DialogTitle>
@@ -97,6 +125,7 @@ export default function Settings() {
     setOpen(false)
     const values = selectedValues[currentIndex]
     values[bal[currentIndex]] = value
+
     switch (currentIndex) {
       case 0:
         setLanguage( values[bal[currentIndex]])
@@ -122,7 +151,7 @@ export default function Settings() {
       default:
         setPersonalAnalysis( values[bal[currentIndex]])
     }
-    console.log( values[bal[currentIndex]])
+    // console.log( values[bal[currentIndex]])
     // setSelectedValues(values)
   }
   return (

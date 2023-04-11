@@ -26,8 +26,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     {
       $set: {
         language: lang,
-        modus,
-        status,
+        modus: modus,
+        status: status,
         show_firstname: firstname,
         show_lastname: lastname,
         show_email: email,

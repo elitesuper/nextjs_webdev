@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { getSession } from 'next-auth/react'
 import FullLayout from '@layouts/FullLayout/FullLayout'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -28,6 +29,7 @@ export default function Profile() {
   const opportunity = 21
 
   const [open, setOpen] = React.useState(false)
+  const [email, setEmail] = React.useState('')
   const [firstName, setFirstName] = React.useState('')
   const [lastName, setLastName] = React.useState('')
   const [company, setCompany] = React.useState('')
@@ -37,6 +39,13 @@ export default function Profile() {
   const [education, setEducation] = React.useState('')
   const [hobby, setHobby] = React.useState('')
 
+
+  
+  useEffect(()=>{
+      
+    getpic();
+
+  },[])
 
   const handleChange = () => {
     setOpen(!open)
@@ -67,6 +76,30 @@ export default function Profile() {
     })
   }
 
+
+  
+ function getpic (){
+  loadpic()
+}
+
+async function loadpic () {
+  await fetch('api/user/currentUser').then(res=>res.json()).then(
+    res => {
+      setEmail(res.data[0].email);
+      setFirstName(res.data[0].firstName);
+      setLastName(res.data[0].lastName);
+      setTelephone(res.data[0].telephone);
+      setAddress(res.data[0].address),
+      setProfession(res.data[0].profession),
+      setEducation(res.data[0].education),
+      setHobby(res.data[0].hobby)
+    }
+  ).catch(
+    err =>{
+      
+    }
+  )
+}
   async function updateUser(userData: object) {
     const response = await fetch('/api/profile/profile', {
       method: 'POST',
@@ -236,7 +269,7 @@ export default function Profile() {
             </Typography>
           </Box>
 
-          <Typography>Email: asdf@gmail.com</Typography>
+          <Typography>{email}</Typography>
             <Button
               variant="contained"
               color="secondary"
