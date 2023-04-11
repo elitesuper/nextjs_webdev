@@ -11,7 +11,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   publicRuntimeConfig:{
-    staticFolder:'/uploads',
+    uploadsFolder:'/uploads',
   },
 }
 
