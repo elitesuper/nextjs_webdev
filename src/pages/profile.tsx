@@ -20,6 +20,10 @@ import { ArrowDropDown, ArrowLeft } from '@mui/icons-material'
 import {language} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
+import SnackbarContext, { Snack } from 'context/SnackbarContext'
+import { type AlertColor } from '@mui/material/Alert'
+
+
 
 import ImageUploader from '../components/elements/ImageUploader'
 
@@ -28,6 +32,8 @@ export default function Profile() {
   const energy = 54
   const opportunity = 21
 
+
+  const { setSnack } = React.useContext(SnackbarContext)
   const [open, setOpen] = React.useState(false)
   const [email, setEmail] = React.useState('')
   const [firstName, setFirstName] = React.useState('')
@@ -89,10 +95,10 @@ async function loadpic () {
       setFirstName(res.data[0].firstName);
       setLastName(res.data[0].lastName);
       setTelephone(res.data[0].telephone);
-      setAddress(res.data[0].address),
-      setProfession(res.data[0].profession),
-      setEducation(res.data[0].education),
-      setHobby(res.data[0].hobby)
+      setAddress(res.data[0].address);
+      setProfession(res.data[0].profession);
+      setEducation(res.data[0].education);
+      setHobby(res.data[0].hobby);
     }
   ).catch(
     err =>{
@@ -118,10 +124,20 @@ async function loadpic () {
       }
     }
   
-    return {
-      status: 'success',
-      data: 'Profile saved successfully.',
-    }
+
+    
+    setSnack(
+      new Snack({
+        message: "Profile saved successfully",
+        color: "success" as AlertColor,
+        open: true,
+    }));
+
+    // return {
+    //   status: 'success',
+    //   data: 'Profile saved successfully.',
+    // }
+
   }
 
   return (
