@@ -17,11 +17,17 @@ import Link from 'next/link'
 import { Collapse } from '@mui/material'
 import React from 'react'
 import { ArrowDropDown, ArrowLeft } from '@mui/icons-material'
+import IconButton from '@mui/material/IconButton'
 import {language} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
 import SnackbarContext, { Snack } from 'context/SnackbarContext'
 import { type AlertColor } from '@mui/material/Alert'
+import { Fade, ListItemIcon, Menu, MenuItem } from '@mui/material'
+import * as MenuData from '@constants/Menu.json'
+const { data: MenuDatas } = MenuData
+
+
 
 
 
@@ -44,8 +50,16 @@ export default function Profile() {
   const [profession, setProfession] = React.useState('')
   const [education, setEducation] = React.useState('')
   const [hobby, setHobby] = React.useState('')
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
 
+  const topen = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
   
   useEffect(()=>{
       
@@ -153,24 +167,54 @@ async function loadpic () {
             display: 'flex',
             justifyContent: 'space-between',
           }}>
-          <Image
-            src="/images/setting.png"
-            alt="setting"
-            width={40}
-            height={40}
-            
-          />
+         <IconButton LinkComponent={Link} href="/settings">
+            <Image
+              src="/images/setting.png"
+              alt="setting"
+              width={50}
+              height={50}
+            />
+          </IconButton>
+          
           <Typography
             sx={{
               fontSize: 30,
             }}>
             {languagejson[lang].Nickname}
           </Typography>
-          <MenuIcon
-            sx={{
-              fontSize: 40,
-            }}
-          />
+          <IconButton onClick={handleClick}>
+            <Image src="/images/menu.png" alt="menu" width={50} height={50} />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={topen}
+            onClose={handleClose}
+            TransitionComponent={Fade}>
+            {MenuDatas.map(
+              ({ name, href }, i) =>
+                i !== 2 && (
+                  <MenuItem key={name} dense>
+                    <Box
+                      component={Link}
+                      href={href}
+                      sx={{ display: 'inherit' }}>
+                      <ListItemIcon>
+                        <Image
+                          src={`/images/${name}.png`}
+                          alt={name}
+                          width={20}
+                          height={20}
+                        />
+                      </ListItemIcon>
+                      {name}
+                    </Box>
+                  </MenuItem>
+                )
+            )}
+            <MenuItem dense onClick={() => signOut()}>
+              Logout
+            </MenuItem>
+          </Menu>
         </Box>
         <Box
           sx={{
