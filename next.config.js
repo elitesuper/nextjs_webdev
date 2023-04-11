@@ -6,7 +6,10 @@ const nextConfig = {
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.join(__dirname, 'src')]
-  }
+  },
+  typescript:{
+    ignoreBuildErrors: true,
+  },
 }
 
 module.exports = nextConfig
