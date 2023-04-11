@@ -89,7 +89,7 @@ async function createUser(userData: object) {
 
   return {
     status: 'success',
-    data: 'Please verify with the code that is sent to your email.',
+    data: 'New User created!',
   }
 }
 
@@ -190,7 +190,7 @@ export default function SignUp() {
       })
     )
     if (res.status === 'success') {
-      router.replace('/verification')
+      router.replace('/dashboard')
     }
   }
   const [birthday, setBirthday] = React.useState<Dayjs | null>(

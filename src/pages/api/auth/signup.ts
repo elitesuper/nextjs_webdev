@@ -63,7 +63,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
    const hashedPassword = await hashPassword(password)
 
-  const enable = false
+  const enable = true
   const verify_code = (Math.floor(100000 + Math.random() * 900000)).toString()
   const code_send_time = Date.now()
 
