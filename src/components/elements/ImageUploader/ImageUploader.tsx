@@ -127,8 +127,8 @@ export default function ImageUploader() {
               }
             };
 
-            const formData = new FormData();
-            formData.append("file", file, file.name);
+            // const formData = new FormData();
+            // formData.append("file", file, file.name);
     
             // // Start upload
             // xhr.open('POST', document.getElementById('file-upload-form').action, true);
@@ -143,7 +143,7 @@ export default function ImageUploader() {
             // const formData = new FormData();
             // formData.append('file', file);
 
-            uploadstart(formData);
+            uploadstart(file);
         
           } else {
             output('Please upload a smaller file (< ' + fileSizeLimit + ' MB).');
@@ -161,22 +161,27 @@ export default function ImageUploader() {
     ekUpload();
   }, [])
 
-  async function asyncupload(formData) {
+  async function asyncupload(file:any) {
+    console.log(file.name);
+    const data = await file.arrayBuffer();
     await fetch('/api/upload', {
       method: 'POST',
-      body: formData,
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({
+        name: file.name,
+        data: Array.from(new Uint8Array(data)),
+      }),
     }).then(response=>response.json()).then(data=>{
-      // console.log(res);
-      // console.log(data.path);
-      // getpic()
-      document.getElementById('file-image').src = data.path;
+      document.getElementById('file-image').src = `api/view?name=${data.data}`;
     }).catch(err=>{
       console.error('Failed to upload file');
     })
   }
 
- function uploadstart (formData){
-  asyncupload(formData)
+ function uploadstart (file){
+  asyncupload(file)
  }
 
  function getpic (){
@@ -186,13 +191,13 @@ export default function ImageUploader() {
  async function loadpic () {
   await fetch('api/user/currentUser').then(res=>res.json()).then(
     res => {
-      const path:any = res.data[0].profilepic;
+      const path:any = res.data[0].picpath;
       if(path != null && path != ""){
         document.getElementById('start').classList.add("hidden");
         document.getElementById('response').classList.remove("hidden");
         document.getElementById('notimage').classList.add("hidden");
         document.getElementById('file-image').classList.remove("hidden");
-        document.getElementById('file-image').src = path;
+        document.getElementById('file-image').src = `api/view?name=${path}`;
       }
 
     }
