@@ -24,6 +24,11 @@ import Image from 'next/image'
 import {language} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
+import {useEffect, useRef} from 'react'
+import mapboxgl from 'mapbox-gl'
+import cookies from "browser-cookies";
+
+
 
 function TabPanel(props: {
   children: React.ReactNode
@@ -77,6 +82,41 @@ function TabPanel(props: {
 export default function Home() {
   const [lang, setLanguage] = useAtom(language)
   const [value, setValue] = useState(0)
+
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [center, setCenter] = useState({lng:null, lat:null});
+  const [zoom, setZoom] = useState(6);
+
+
+  useEffect(() => {
+
+    if (center.lng == null || center.lat == null) return;
+    
+    mapboxgl.accessToken = 'pk.eyJ1IjoicmVkMzAxMSIsImEiOiJjbGdjOXp0enAwOXZ5M2hzeGl6ank5Y29yIn0.NaiYYAmHiHFDJ6SRcqrmkg';
+
+    if (map.current) return; // initialize map only once
+
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [center.lng, center.lat],
+      zoom: zoom
+    });
+
+  },[center]);
+
+  useEffect(()=>{
+
+    const getCountry = async () => {
+      const response = await fetch(`https://ipapi.co/json`)
+      const countryCode = await response.json();
+
+      setCenter({lng:countryCode.longitude, lat:countryCode.latitude})
+    }
+    getCountry()
+
+  },[])
 
   const handleChange = (
     event: React.SyntheticEvent | Event,
@@ -176,12 +216,13 @@ export default function Home() {
               }}
             />
             <div className="maps">
-              <Image
+              {/* <Image
                 src="/images/google_maps.png"
                 width={300}
                 height={200}
                 alt=""
-              />
+              /> */}
+              <div ref={mapContainer} className="map-container" />
             </div>
 
             <div className="actions">

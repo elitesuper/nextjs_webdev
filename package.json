@@ -36,6 +36,7 @@
     "eslint-plugin-react": "^7.31.11",
     "fs": "^0.0.1-security",
     "jotai": "^2.0.3",
+    "mapbox-gl": "^2.13.0",
     "mongodb": "^4.12.1",
     "multer": "^1.4.5-lts.1",
     "next": "13.0.7",
