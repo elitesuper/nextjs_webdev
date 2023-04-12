@@ -165,7 +165,7 @@ export default function SignIn() {
           <Grid container>
             <Grid item>
               <Link href="/signup" variant="body2" component={NextLink}>
-                {"Don't have an account? Sign Up"}
+                {languagejson[lang].dontHaveAccount}
               </Link>
             </Grid>
           </Grid>

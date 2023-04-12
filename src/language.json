@@ -55,7 +55,9 @@
         "diverse":"diverse",
         "repeatPassword":"Repeat Password",
         "birthDate":"Birth Date",
-        "rememberMe":"Remember me"
+        "rememberMe":"Remember me",
+        "dontHaveAccount":"Don't have an account? Sign Up"
+
     },
     {
         "Message":"Nachricht",
@@ -106,14 +108,15 @@
         "ADD":"HINZUFÜGEN",
         "NEWROLE":"NEUE ROLLE",
         "Lastupdate":"Letztes Update",
-        "EmailAddress":"Адрес электронной почты",
-        "Password":"Пароль",
-        "male":"мужской",
-        "female":"женский",
-        "diverse":"разнообразный",
-        "repeatPassword":"Повторите пароль",
-        "birthDate":"Дата рождения",
-        "rememberMe":"Запомнить меня"
+        "EmailAddress":"E-Mail-Addresse",
+        "Password":"Passwort",
+        "male":"männlich",
+        "female":"weiblich",
+        "diverse":"vielfältig",
+        "repeatPassword":"Passwort wiederholen",
+        "birthDate":"Geburtsdatum",
+        "rememberMe":"Mich erinnern",
+        "dontHaveAccount":"Sie haben kein Konto? Anmeldung"
     },
     {
         "Message":"повідомлення",
@@ -171,7 +174,8 @@
         "diverse":"разнообразный",
         "repeatPassword":"Повторите пароль",
         "birthDate":"Дата рождения",
-        "rememberMe":"Запомнить меня"
+        "rememberMe":"Запомнить меня",
+        "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться"
     },
     {
         "Message":"повідомлення",
@@ -229,6 +233,8 @@
         "diverse":"разнообразный",
         "repeatPassword":"Повторите пароль",
         "birthDate":"Дата рождения",
-        "rememberMe":"Запомнить меня"
+        "rememberMe":"Запомнить меня",
+        "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться"
+
     }
 ]
