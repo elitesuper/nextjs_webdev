@@ -105,7 +105,15 @@
         "Myproject":"Mein Projekt",
         "ADD":"HINZUFÜGEN",
         "NEWROLE":"NEUE ROLLE",
-        "Lastupdate":"Letztes Update"
+        "Lastupdate":"Letztes Update",
+        "EmailAddress":"Адрес электронной почты",
+        "Password":"Пароль",
+        "male":"мужской",
+        "female":"женский",
+        "diverse":"разнообразный",
+        "repeatPassword":"Повторите пароль",
+        "birthDate":"Дата рождения",
+        "rememberMe":"Запомнить меня"
     },
     {
         "Message":"повідомлення",
