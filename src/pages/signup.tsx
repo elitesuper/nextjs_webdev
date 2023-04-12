@@ -208,7 +208,7 @@ export default function SignUp() {
   }
 
   return (
-    <CenterLayout title="SignUp">
+    <CenterLayout title={languagejson[lang].SignUp}>
       <Box
         sx={{
           display: 'flex',
@@ -233,7 +233,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="nickname"
-                label="Nickname"
+                label={languagejson[lang].Nickname}
                 name="nickname"
                 autoComplete="given-name"
                 helperText={errors.error === 'nickname' && errors.helperText}
@@ -256,17 +256,17 @@ export default function SignUp() {
                 <FormControlLabel
                   value="male"
                   control={<Radio />}
-                  label="male"
+                  label={languagejson[lang].male}
                 />
                 <FormControlLabel
                   value="female"
                   control={<Radio />}
-                  label="female"
+                  label={languagejson[lang].female}
                 />
                 <FormControlLabel
                   value="diverse"
                   control={<Radio />}
-                  label="diverse"
+                  label={languagejson[lang].diverse}
                 />
               </RadioGroup>
             </Grid>
@@ -275,7 +275,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label={languagejson[lang].EmailAddress}
                 name="email"
                 autoComplete="email"
                 helperText={errors.error === 'email' && errors.helperText}
@@ -287,7 +287,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label={languagejson[lang].Password}
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -300,7 +300,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 name="repeat-password"
-                label="Repeat password"
+                label={languagejson[lang].repeatPassword}
                 type="password"
                 id="repeat-password"
                 autoComplete="repeat-password"
@@ -313,7 +313,7 @@ export default function SignUp() {
             <Grid item xs={12}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <MobileDatePicker
-                  label="Birth Date"
+                  label={languagejson[lang].birthDate}
                   inputFormat="DD/MM/YYYY"
                   value={birthday}
                   onChange={handleChange}

@@ -104,7 +104,7 @@ export default function SignIn() {
     }
   }
   return (
-    <CenterLayout title="SignIn">
+    <CenterLayout title={languagejson[lang].SignIn}>
       <Box
         sx={{
           display: 'flex',
@@ -147,7 +147,7 @@ export default function SignIn() {
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label={languagejson[lang].rememberMe}
             sx={{
               display: 'none',
             }}

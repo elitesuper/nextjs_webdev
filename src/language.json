@@ -47,7 +47,15 @@
         "Myproject":"My project",
         "ADD":"ADD",
         "NEWROLE":"NEW ROLE",
-        "Lastupdate":"Last Update"
+        "Lastupdate":"Last Update",
+        "EmailAddress":"Email Address",
+        "Password":"Password",
+        "male":"male",
+        "female":"female",
+        "diverse":"diverse",
+        "repeatPassword":"Repeat Password",
+        "birthDate":"Birth Date",
+        "rememberMe":"Remember me"
     },
     {
         "Message":"Nachricht",
@@ -199,6 +207,12 @@
         "NEWROLE":"НОВА РОЛЬ",
         "Lastupdate":"Останнє оновлення",
         "EmailAddress":"Адрес электронной почты",
-        "Password":"Пароль"
+        "Password":"Пароль",
+        "male":"мужской",
+        "female":"женский",
+        "diverse":"разнообразный",
+        "repeatPassword":"Повторите пароль",
+        "birthDate":"Дата рождения",
+        "rememberMe":"Запомнить меня"
     }
 ]
