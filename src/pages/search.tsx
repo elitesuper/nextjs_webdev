@@ -29,7 +29,7 @@ import mapboxgl from 'mapbox-gl'
 import cookies from "browser-cookies";
 
 
-mapboxgl.accessToken = 'pk.eyJ1IjoicmVkMzAxMSIsImEiOiJjbGdjOXp0enAwOXZ5M2hzeGl6ank5Y29yIn0.NaiYYAmHiHFDJ6SRcqrmkg';
+mapboxgl.accessToken = "pk.eyJ1IjoicmVkMzAxMSIsImEiOiJjbGdjOXp0enAwOXZ5M2hzeGl6ank5Y29yIn0.NaiYYAmHiHFDJ6SRcqrmkg";
 
 
 function TabPanel(props: {
