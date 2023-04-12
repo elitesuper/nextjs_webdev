@@ -29,6 +29,8 @@ import mapboxgl from 'mapbox-gl'
 import cookies from "browser-cookies";
 
 
+mapboxgl.accessToken = 'pk.eyJ1IjoicmVkMzAxMSIsImEiOiJjbGdjOXp0enAwOXZ5M2hzeGl6ank5Y29yIn0.NaiYYAmHiHFDJ6SRcqrmkg';
+
 
 function TabPanel(props: {
   children: React.ReactNode
@@ -84,27 +86,48 @@ export default function Home() {
   const [value, setValue] = useState(0)
 
   const mapContainer = useRef(null);
-  const map = useRef(null);
+  // const map = useRef(null);
+  const [map, setMap] = useState(null);
   const [center, setCenter] = useState({lng:null, lat:null});
   const [zoom, setZoom] = useState(6);
-
 
   useEffect(() => {
 
     if (center.lng == null || center.lat == null) return;
-    
-    mapboxgl.accessToken = 'pk.eyJ1IjoicmVkMzAxMSIsImEiOiJjbGdjOXp0enAwOXZ5M2hzeGl6ank5Y29yIn0.NaiYYAmHiHFDJ6SRcqrmkg';
 
-    if (map.current) return; // initialize map only once
+    const initializeMap = () => {
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [center.lng, center.lat],
-      zoom: zoom
-    });
+      console.log("ddddddddddddddddddddddddddddd")
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [center.lng, center.lat],
+        zoom: zoom,
+      });
 
-  },[center]);
+      setMap(map);
+    };
+
+    if (map == null) {
+      initializeMap();
+    }
+  }, [center]);
+
+  // useEffect(() => {
+
+  //   if (center.lng == null || center.lat == null) return;
+
+
+  //   if (map.current) return; // initialize map only once
+
+  //   map.current = new mapboxgl.Map({
+  //     container: mapContainer.current,
+  //     style: 'mapbox://styles/mapbox/streets-v12',
+  //     center: [center.lng, center.lat],
+  //     zoom: zoom
+  //   });
+
+  // },[center]);
 
   useEffect(()=>{
 
@@ -124,6 +147,28 @@ export default function Home() {
   ) => {
     setValue(newValue)
   }
+
+  const searchValue = (value:any) =>{
+    if (value == "") return;
+    // Use Mapbox Geocoding API to search for location
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?access_token=${mapboxgl.accessToken}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+
+        const [longitude, latitude] = data.features[0].center;
+
+        if(map != null){
+          map.flyTo({
+            center: [longitude, latitude],
+            zoom: zoom,
+          });
+        }
+        // // Move map to searched location
+      });
+  }
+
   return (
     <BasicLayout title="Create">
       <div className="page">
@@ -192,6 +237,7 @@ export default function Home() {
                 marginTop: '20px',
               }}
               variant="outlined"
+              onChange={(e) => searchValue(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -222,7 +268,8 @@ export default function Home() {
                 height={200}
                 alt=""
               /> */}
-              <div ref={mapContainer} className="map-container" />
+              {/* <div ref={mapContainer} className="map-container" /> */}
+              <div id="map" style={{ height: '200px' }} />
             </div>
 
             <div className="actions">
