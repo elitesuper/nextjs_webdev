@@ -32,6 +32,8 @@ import ListItemText from '@mui/material/ListItemText'
 import { useAtom } from 'jotai'
 import languagejson from "../language.json"
 import {language, tempEmailJot} from "../jotai"
+import cookies from "browser-cookies";
+
 
 export interface SimpleDialogProps {
   open: boolean
@@ -107,6 +109,29 @@ export default function SignUp() {
     error: '',
     helperText: '',
   })
+
+
+  React.useEffect(() => {
+    const ip = cookies.get("user-ip") ?? "";
+    const getCountry = async (ip: any) => {
+      const response = await fetch(`https://ipapi.co/${ip}/country`)
+      const countryCode = await response.text()
+      switch (countryCode) {
+        case 'RU':
+          setLanguage(2)
+          break
+        case 'DE':
+          setLanguage(1)
+          break
+        case 'UA':
+          setLanguage(3)
+          break
+        default:
+          setLanguage(0)
+      }
+    }
+    getCountry(ip)
+  }, [])
 
   React.useEffect(() => {
     getSession().then((session) => {

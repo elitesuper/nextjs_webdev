@@ -165,7 +165,7 @@ export default function Home() {
             {MenuDatas.map(
               ({ name, href }, i) =>
                 i !== 2 && (
-                  <MenuItem key={name} dense>
+                  <MenuItem key={name[0]} dense>
                     <Box
                       component={Link}
                       href={href}
