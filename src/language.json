@@ -58,7 +58,8 @@
         "rememberMe":"Remember me",
         "dontHaveAccount":"Don't have an account? Sign Up",
         "signInSuccess":"Sign in success",
-        "signOut":"Sign out"
+        "signOut":"Sign out",
+        "search":"Search"
     },
     {
         "Message":"Nachricht",
@@ -119,7 +120,8 @@
         "rememberMe":"Mich erinnern",
         "dontHaveAccount":"Sie haben kein Konto? Anmeldung",
         "signInSuccess":"Anmeldung erfolgreich",
-        "signOut":"austragen"
+        "signOut":"austragen",
+        "search":"Suchen"
     },
     {
         "Message":"повідомлення",
@@ -180,7 +182,8 @@
         "rememberMe":"Запомнить меня",
         "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться",
         "signInSuccess":"Войти успешно",
-        "signOut":"выход"
+        "signOut":"выход",
+        "search":"Поиск"
     },
     {
         "Message":"повідомлення",
@@ -241,6 +244,7 @@
         "rememberMe":"Запомнить меня",
         "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться",
         "signInSuccess":"Войти успешно",
-        "signOut":"выход"
+        "signOut":"выход",
+        "search":"Поиск"
     }
 ]

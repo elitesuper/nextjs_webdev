@@ -88,7 +88,7 @@ export default function Projects() {
         <TextField
           fullWidth
           margin="normal"
-          placeholder="Search..."
+          placeholder={`${languagejson[lang].search}...`}
           sx={{
             'background-color': 'white',
           }}
@@ -112,7 +112,7 @@ export default function Projects() {
             <ListItemButton key={name} href="/project" LinkComponent={Link}>
               <Stack sx={{ flexGrow: 1 }}>
                 <Typography variant="h4">{name}</Typography>
-                <Typography variant="h6">Last update: {date}</Typography>
+                <Typography variant="h6">{languagejson[lang].Lastupdate}: {date}</Typography>
               </Stack>
 
               <Badge badgeContent={members} color="success">
