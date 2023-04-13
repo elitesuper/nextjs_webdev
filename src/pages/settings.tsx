@@ -11,6 +11,8 @@ import SettingData from '@constants/Setting.json'
 import {language, modusJot, statusJot, firstnameJot, lastnameJot, emailJot, telephoneJot, personalAnalysisJot} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
+import cookies from "browser-cookies";
+
 
 
 export interface SimpleDialogProps {

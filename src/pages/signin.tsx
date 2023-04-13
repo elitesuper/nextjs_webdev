@@ -87,7 +87,7 @@ export default function SignIn() {
       console.log("login res=", res)
       setSnack(
         new Snack({
-          message: 'Sign in success',
+          message: languagejson[lang].signInSuccess,
           color: 'success',
           open: true,
         })
@@ -160,7 +160,7 @@ export default function SignIn() {
               mt: 3,
               mb: 2,
             }}>
-            Sign In
+            {languagejson[lang].SignIn}
           </Button>
           <Grid container>
             <Grid item>

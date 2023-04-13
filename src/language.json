@@ -56,8 +56,9 @@
         "repeatPassword":"Repeat Password",
         "birthDate":"Birth Date",
         "rememberMe":"Remember me",
-        "dontHaveAccount":"Don't have an account? Sign Up"
-
+        "dontHaveAccount":"Don't have an account? Sign Up",
+        "signInSuccess":"Sign in success",
+        "signOut":"Sign out"
     },
     {
         "Message":"Nachricht",
@@ -116,7 +117,9 @@
         "repeatPassword":"Passwort wiederholen",
         "birthDate":"Geburtsdatum",
         "rememberMe":"Mich erinnern",
-        "dontHaveAccount":"Sie haben kein Konto? Anmeldung"
+        "dontHaveAccount":"Sie haben kein Konto? Anmeldung",
+        "signInSuccess":"Anmeldung erfolgreich",
+        "signOut":"austragen"
     },
     {
         "Message":"повідомлення",
@@ -175,7 +178,9 @@
         "repeatPassword":"Повторите пароль",
         "birthDate":"Дата рождения",
         "rememberMe":"Запомнить меня",
-        "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться"
+        "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться",
+        "signInSuccess":"Войти успешно",
+        "signOut":"выход"
     },
     {
         "Message":"повідомлення",
@@ -234,7 +239,8 @@
         "repeatPassword":"Повторите пароль",
         "birthDate":"Дата рождения",
         "rememberMe":"Запомнить меня",
-        "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться"
-
+        "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться",
+        "signInSuccess":"Войти успешно",
+        "signOut":"выход"
     }
 ]

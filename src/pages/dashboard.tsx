@@ -18,6 +18,8 @@ import { useRouter } from 'next/router'
 import {language} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
+import cookies from "browser-cookies";
+
 
 const { data: MenuDatas } = MenuData
 
@@ -75,20 +77,43 @@ export default function Home() {
     ]
 
   useEffect(() => {
+    // Todo
+    /*
     const getCurrentSetting = async () => {
-      const response = await fetch('/api/user/currentSetting', {
+      const response = await fetch('/api/setting/currentSetting', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       })
+
       let settingData = await response.json()
-      // console.log(userData.data[0].language)
       setLanguage(settingData.data[0].language)
+
     }
-    getCurrentSetting()
     
-    console.log(languagejson[lang].NEED)
+    getCurrentSetting()
+    */
+
+    const ip = cookies.get("user-ip") ?? "";
+    const getCountry = async (ip: any) => {
+      const response = await fetch(`https://ipapi.co/${ip}/country`)
+      const countryCode = await response.text()
+      switch (countryCode) {
+        case 'RU':
+          setLanguage(2)
+          break
+        case 'DE':
+          setLanguage(1)
+          break
+        case 'UA':
+          setLanguage(3)
+          break
+        default:
+          setLanguage(0)
+      }
+    }
+    getCountry(ip)
   }, [])
   
 
@@ -147,19 +172,19 @@ export default function Home() {
                       sx={{ display: 'inherit' }}>
                       <ListItemIcon>
                         <Image
-                          src={`/images/${name}.png`}
-                          alt={name}
+                          src={`/images/${name[0]}.png`}
+                          alt={name[lang]}
                           width={20}
                           height={20}
                         />
                       </ListItemIcon>
-                      {name}
+                      {name[lang]}
                     </Box>
                   </MenuItem>
                 )
             )}
             <MenuItem dense onClick={() => signOut()}>
-              Logout
+              {languagejson[lang].signOut}
             </MenuItem>
           </Menu>
         </Box>
