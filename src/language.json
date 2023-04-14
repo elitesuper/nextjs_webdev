@@ -66,7 +66,15 @@
         "myEvents":"MY EVENTS",
         "Week":"Week",
         "Month":"Month",
-        "Year":"Year"
+        "Year":"Year",
+        "Service":"Service",
+        "Help":"Help",
+        "Information":"Information",
+        "whatYouAreLookingFor": "What you are looking for?",
+        "Where": "Where?",
+        "RESULT" : "RESULT",
+        "Results":"Results",
+        "Favourites":"Favourites"
     },
     {
         "Message":"Nachricht",
@@ -135,7 +143,15 @@
         "myEvents":"MEINE EREIGNISSE",
         "Week":"Woche",
         "Month":"Monat",
-        "Year":"Jahr"
+        "Year":"Jahr",
+        "Service":"Dienst",
+        "Help":"Hilfe",
+        "Information":"Informationen",
+        "whatYouAreLookingFor": "Was suchen Sie?",
+        "Where": "Wo?",
+        "RESULT" : "ERGEBNIS",
+        "Results":"Ergebnisse",
+        "Favourites":"Favoriten"
     },
     {
         "Message":"повідомлення",
@@ -204,7 +220,15 @@
         "myEvents":"МОИ СОБЫТИЯ",
         "Week":"Неделя",
         "Month":"Месяц",
-        "Year":"Год"
+        "Year":"Год",
+        "Service":"Сервис",
+        "Help":"помогите",
+        "Information":"Информация",
+        "whatYouAreLookingFor": "Что вы ищете?",
+        "Where": "где?",
+        "RESULT" : "РЕЗУЛЬТАТ",
+        "Results":"Результаты",
+        "Favourites":"Избранное"
     },
     {
         "Message":"повідомлення",
@@ -273,6 +297,14 @@
         "myEvents":"МОИ СОБЫТИЯ",
         "Week":"Неделя",
         "Month":"Месяц",
-        "Year":"Год"
+        "Year":"Год",
+        "Service":"Сервис",
+        "Help":"помогите",
+        "Information":"Информация",
+        "whatYouAreLookingFor": "Что вы ищете?",
+        "Where": "где?",
+        "RESULT" : "РЕЗУЛЬТАТ",
+        "Results":"Результаты",
+        "Favourites":"Избранное"
     }
 ]

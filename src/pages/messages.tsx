@@ -128,7 +128,7 @@ export default function Messages() {
     </Box>
   )
   return (
-    <FullLayout title="MESSAGES">
+    <FullLayout title={languagejson[lang].Message}>
       <Tabs value={group} onChange={handleChange}>
         <Tab label={languagejson[lang].chats} />
         <Tab label={languagejson[lang].group} />

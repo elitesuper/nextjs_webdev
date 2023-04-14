@@ -141,6 +141,47 @@ export default function Home() {
 
   },[])
 
+  
+  useEffect(() => {
+    // Todo
+    /*
+    const getCurrentSetting = async () => {
+      const response = await fetch('/api/setting/currentSetting', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      let settingData = await response.json()
+      setLanguage(settingData.data[0].language)
+
+    }
+    
+    getCurrentSetting()
+    */
+
+    const ip = cookies.get("user-ip") ?? "";
+    const getCountry = async (ip: any) => {
+      const response = await fetch(`https://ipapi.co/${ip}/country`)
+      const countryCode = await response.text()
+      switch (countryCode) {
+        case 'RU':
+          setLanguage(2)
+          break
+        case 'DE':
+          setLanguage(1)
+          break
+        case 'UA':
+          setLanguage(3)
+          break
+        default:
+          setLanguage(0)
+      }
+    }
+    getCountry(ip)
+  }, [])
+
   const handleChange = (
     event: React.SyntheticEvent | Event,
     newValue: number
@@ -193,7 +234,7 @@ export default function Home() {
                 }}
                 value="service"
                 control={<Radio />}
-                label="Service"
+                label={languagejson[lang].Service}
               />
               <FormControlLabel
                 sx={{
@@ -201,7 +242,7 @@ export default function Home() {
                 }}
                 value="help"
                 control={<Radio />}
-                label="Help"
+                label={languagejson[lang].Help}
               />
               <FormControlLabel
                 sx={{
@@ -209,13 +250,13 @@ export default function Home() {
                 }}
                 value="information"
                 control={<Radio />}
-                label="Information"
+                label={languagejson[lang].Information}
               />
             </RadioGroup>
           </div>
           <div className="main">
             <TextField
-              placeholder="What you're looking for?"
+              placeholder={languagejson[lang].whatYouAreLookingFor}
               sx={{
                 width: '100%',
                 'background-color': 'white',
@@ -230,7 +271,7 @@ export default function Home() {
               }}
             />
             <TextField
-              placeholder="Where?"
+              placeholder={languagejson[lang].Where}
               sx={{
                 width: '100%',
                 'background-color': 'white',
@@ -291,7 +332,7 @@ export default function Home() {
                 }>
                 {languagejson[lang].SHARERESULT}
               </Button>
-              <Button variant="contained">FULL</Button>
+              <Button variant="contained">{languagejson[lang].FULL}</Button>
             </div>
           </div>
           <Box
@@ -303,9 +344,9 @@ export default function Home() {
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example">
-              <Tab label="Search" {...a11yProps(0)} />
-              <Tab label="Favourties" {...a11yProps(1)} />
-              <Tab label="Results" {...a11yProps(2)} />
+              <Tab label={languagejson[lang].search} {...a11yProps(0)} />
+              <Tab label={languagejson[lang].Favourites} {...a11yProps(1)} />
+              <Tab label={languagejson[lang].Results} {...a11yProps(2)} />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
