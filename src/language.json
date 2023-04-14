@@ -59,7 +59,14 @@
         "dontHaveAccount":"Don't have an account? Sign Up",
         "signInSuccess":"Sign in success",
         "signOut":"Sign out",
-        "search":"Search"
+        "search":"Search",
+        "chats":"Chats",
+        "group":"Groups",
+        "contacts":"Contacts",
+        "myEvents":"MY EVENTS",
+        "Week":"Week",
+        "Month":"Month",
+        "Year":"Year"
     },
     {
         "Message":"Nachricht",
@@ -121,7 +128,14 @@
         "dontHaveAccount":"Sie haben kein Konto? Anmeldung",
         "signInSuccess":"Anmeldung erfolgreich",
         "signOut":"austragen",
-        "search":"Suchen"
+        "search":"Suchen",
+        "chats":"chattet",
+        "group":"Gruppen",
+        "contacts":"Kontakte",
+        "myEvents":"MEINE EREIGNISSE",
+        "Week":"Woche",
+        "Month":"Monat",
+        "Year":"Jahr"
     },
     {
         "Message":"повідомлення",
@@ -183,7 +197,14 @@
         "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться",
         "signInSuccess":"Войти успешно",
         "signOut":"выход",
-        "search":"Поиск"
+        "search":"Поиск",
+        "chats":"чаты",
+        "group":"Группы",
+        "contacts":"Kontakte",
+        "myEvents":"МОИ СОБЫТИЯ",
+        "Week":"Неделя",
+        "Month":"Месяц",
+        "Year":"Год"
     },
     {
         "Message":"повідомлення",
@@ -245,6 +266,13 @@
         "dontHaveAccount":"У вас нет аккаунта? Зарегистрироваться",
         "signInSuccess":"Войти успешно",
         "signOut":"выход",
-        "search":"Поиск"
+        "search":"Поиск",
+        "chats":"чаты",
+        "group":"Группы",
+        "contacts":"Контакты",
+        "myEvents":"МОИ СОБЫТИЯ",
+        "Week":"Неделя",
+        "Month":"Месяц",
+        "Year":"Год"
     }
 ]

@@ -6,9 +6,15 @@ import Typography from '@mui/material/Typography'
 import { Stack } from '@mui/system'
 import { NextApiRequest } from 'next'
 import { getSession } from 'next-auth/react'
+import languagejson from "../language.json"
+import { useAtom } from 'jotai'
+import {language} from "../jotai"
 import React from 'react'
 
 export default function Calendar() {
+
+  const [lang, setLanguage] = useAtom(language)
+
   const list = [
     {
       name: 'Event 1',
@@ -37,11 +43,11 @@ export default function Calendar() {
     setValue(newValue)
   }
   return (
-    <FullLayout title="MY EVENTS" menubar={false}>
+    <FullLayout title={languagejson[lang].myEvents} menubar={false}>
       <Tabs value={value} onChange={handleChange} sx={{ width: '100vw' }}>
-        <Tab label="Week" />
-        <Tab label="Month" />
-        <Tab label="Year" />
+        <Tab label={languagejson[lang].Week} />
+        <Tab label={languagejson[lang].Month} />
+        <Tab label={languagejson[lang].Year} />
       </Tabs>
       <List
         sx={{

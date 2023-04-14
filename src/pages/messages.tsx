@@ -130,9 +130,9 @@ export default function Messages() {
   return (
     <FullLayout title="MESSAGES">
       <Tabs value={group} onChange={handleChange}>
-        <Tab label="Chats" />
-        <Tab label="Groups" />
-        <Tab label="Contacts" />
+        <Tab label={languagejson[lang].chats} />
+        <Tab label={languagejson[lang].group} />
+        <Tab label={languagejson[lang].contacts} />
       </Tabs>
       {/* BEGIN: CHATS SECTION */}
       {group === 0 && (
