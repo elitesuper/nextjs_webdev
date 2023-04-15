@@ -23,15 +23,15 @@ export default function Menubar() {
       }}>
       {MenuDatas.map(({ name, href }) => (
         <BottomNavigationAction
-          key={name}
+          key={name[0]}
           href={href}
           LinkComponent={Link}
           icon={
             <Image
-              width={name === 'main' ? 100 : 40}
-              height={name === 'main' ? 100 : 40}
-              src={`/images/${name}.png`}
-              alt={name}
+              width={name[0] === 'main' ? 100 : 40}
+              height={name[0] === 'main' ? 100 : 40}
+              src={`/images/${name[0]}.png`}
+              alt={name[0]}
             />
           }
         />

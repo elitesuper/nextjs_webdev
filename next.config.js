@@ -9,10 +9,7 @@ const nextConfig = {
   },
   typescript:{
     ignoreBuildErrors: true,
-  },
-  publicRuntimeConfig:{
-    uploadsFolder:'/uploads',
-  },
+  }
 }
 
 module.exports = nextConfig

@@ -123,7 +123,7 @@ export default function Messages() {
     <Box sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
       <Typography sx={{ flexGrow: 1 }}>{languagejson[lang].Newcontact}</Typography>
       <IconButton>
-        <Image src="/images/create.png" alt="create" width={32} height={32} />
+        <img src="/images/create.png" alt="create" width={20} height={20} />
       </IconButton>
     </Box>
   )
