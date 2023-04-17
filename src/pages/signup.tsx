@@ -51,6 +51,7 @@ function SimpleDialog(props: SimpleDialogProps) {
   }
 
   const handleListItemClick = (value: number) => {
+    setLanguage(value);
     onClose(value)
   }
 
@@ -392,7 +393,7 @@ export default function SignUp() {
                 width={80}
                 height={80}
               />
-              <Typography>{options[selectedValue]}</Typography>
+              <Typography>{options[lang]}</Typography>
             </ButtonBase>
           </Box>
         </Box>

@@ -9,7 +9,6 @@ import {
   Alert,
 } from '@mui/material'
 import '../styles/globals.scss'
-import '../styles/create.css'
 import '../styles/search.css'
 import ColorModeContext from 'context/ColorModeContext'
 import { SessionProvider } from 'next-auth/react'

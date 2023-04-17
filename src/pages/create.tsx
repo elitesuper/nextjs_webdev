@@ -19,6 +19,8 @@ import languagejson from "../language.json"
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
+import '../styles/create.css'
+
 
 export default function Home() {
   const [lang, setLanguage] = useAtom(language)
