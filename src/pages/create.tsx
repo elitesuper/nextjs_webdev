@@ -12,6 +12,8 @@ import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import Slider from '@mui/material/Slider'
 import TextField from '@mui/material/TextField'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import Box from '@mui/material/Box'
 import { NextApiRequest } from 'next'
 import { getSession } from 'next-auth/react'
 import {language} from "../jotai"
@@ -19,13 +21,16 @@ import languagejson from "../language.json"
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
-import { Typography } from '@mui/material'
+import { IconButton, Typography } from '@mui/material'
+import { FullLayout } from '@layouts/index'
+import { useRouter } from 'next/router'
 
 
 export default function Home() {
   const [lang, setLanguage] = useAtom(language)
   const [slideValue, setSlideValue] = useState(0)
   const [data, setData] = useState([])
+  const router = useRouter();
 
   const[can, setCan] = useState({slideValue:0, when:null, from:null, until:null, desc:""});
 
@@ -39,16 +44,35 @@ export default function Home() {
     setCan({...can, until:time})
   }
 
+  const handleClose = () => {
+    router.back()
+  }
+
   const submitpublishorsave = () => {
     if(can.desc == "")
       return;
     setData([...data, can])
   }
   return (
-    <BasicLayout title="Create">
+    <BasicLayout title={languagejson[lang].CAN}>
       <div className="page">
         <div className="create">
           <div className="header">
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end'
+              }}
+            >
+              <IconButton
+                size="large"
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleClose}>
+                <ArrowBackIcon />
+              </IconButton>
+            </Box>
             <TextField
               placeholder="What can you do?"
               id="input-with-icon-textfield"
@@ -64,6 +88,7 @@ export default function Home() {
                 ),
               }}
             />
+
           </div>
           <div className="main">
             <div className="feeling">

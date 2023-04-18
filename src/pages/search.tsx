@@ -28,6 +28,10 @@ import { useAtom } from 'jotai'
 import {useEffect, useRef} from 'react'
 import mapboxgl from 'mapbox-gl'
 import cookies from "browser-cookies";
+import { FullLayout } from '@layouts/index'
+import { useRouter } from 'next/router'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+
 
 
 mapboxgl.accessToken = "pk.eyJ1IjoicmVkMzAxMSIsImEiOiJjbGdjOXp0enAwOXZ5M2hzeGl6ank5Y29yIn0.NaiYYAmHiHFDJ6SRcqrmkg";
@@ -56,11 +60,7 @@ function TabPanel(props: {
               secondaryAction={
                 <>
                   <IconButton edge="end" aria-label="share">
-                    <Share
-                      sx={{
-                        color: 'black',
-                      }}
-                    />
+                    <Share/>
                   </IconButton>
                   <IconButton edge="end" aria-label="star">
                     <Star color="success" />
@@ -91,6 +91,8 @@ export default function Home() {
   const [map, setMap] = useState(null);
   const [center, setCenter] = useState({lng:null, lat:null});
   const [zoom, setZoom] = useState(6);
+
+  const router = useRouter();
 
   useEffect(() => {
 
@@ -142,6 +144,9 @@ export default function Home() {
 
   },[])
 
+  const handleClose = () => {
+    router.back()
+  }
   
   useEffect(() => {
     // Todo
@@ -212,10 +217,25 @@ export default function Home() {
   }
 
   return (
-    <BasicLayout title="Create">
+    <BasicLayout title={languagejson[lang].NEED}>
       <div className="page">
         <div className="search">
           <div className="header">
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end'
+              }}
+            >
+              <IconButton
+                size="large"
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleClose}>
+                <ArrowBackIcon />
+              </IconButton>
+            </Box>
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
