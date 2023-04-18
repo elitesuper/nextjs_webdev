@@ -18,6 +18,7 @@ import { useRouter } from 'next/router'
 import {language} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
+import Draggable from 'react-draggable'
 
 
 const { data: MenuDatas } = MenuData
@@ -267,31 +268,33 @@ export default function Home() {
           {isDragging && (
             <Image src="/images/arrow.png" alt="left" width={50} height={50} />
           )}
-          <Box
-            sx={{
-              height: 50,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <IconButton draggable onDragStart={()=> handleDragStart()} LinkComponent={Link} href="/profile">
-              <Image
-                src="/images/main.png"
-                alt="main"
-                width={100}
-                height={100}
-              />
-            </IconButton>
-            <Typography
-              variant="h2"
+          <Draggable>
+            <Box
               sx={{
-                position: 'absolute',
-                color: 'white',
+                height: 50,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}>
-              I
-            </Typography>
-          </Box>
+              <IconButton draggable onDragStart={()=> handleDragStart()} LinkComponent={Link} href="/profile">
+                <Image
+                  src="/images/main.png"
+                  alt="main"
+                  width={100}
+                  height={100}
+                />
+              </IconButton>
+              <Typography
+                variant="h2"
+                sx={{
+                  position: 'absolute',
+                  color: 'white',
+                }}>
+                I
+              </Typography>
+            </Box>
+          </Draggable>
 
           {isDragging && (
             <Image
