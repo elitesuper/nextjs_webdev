@@ -116,6 +116,9 @@ export default function Home() {
     getCountry(ip)
   }, [])
   
+  const handleDragStart = () => {
+
+  }
 
   const ImportContacts = async () => {
     const response = await fetch('/api/contact/contact', {
@@ -293,7 +296,7 @@ export default function Home() {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <IconButton LinkComponent={Link} href="/profile">
+            <IconButton draggable onDragStart={()=> handleDragStart()} LinkComponent={Link} href="/profile">
               <Image
                 src="/images/main.png"
                 alt="main"

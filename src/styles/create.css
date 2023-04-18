@@ -69,10 +69,6 @@
 .list .item .name {
   flex: 1;
 }
-/* CSS rule to override the text color */
-.MuiInputBase-root.MuiOutlinedInput-root {
-  color: black !important;
-}
 
 .MuiIconButton-root{
   color: grey !important;

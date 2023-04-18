@@ -193,20 +193,20 @@ async function loadpic () {
             {MenuDatas.map(
               ({ name, href }, i) =>
                 i !== 2 && (
-                  <MenuItem key={name} dense>
+                  <MenuItem key={name[0]} dense>
                     <Box
                       component={Link}
                       href={href}
                       sx={{ display: 'inherit' }}>
                       <ListItemIcon>
                         <Image
-                          src={`/images/${name}.png`}
-                          alt={name}
+                          src={`/images/${name[0]}.png`}
+                          alt={name[lang]}
                           width={20}
                           height={20}
                         />
                       </ListItemIcon>
-                      {name}
+                      {name[lang]}
                     </Box>
                   </MenuItem>
                 )

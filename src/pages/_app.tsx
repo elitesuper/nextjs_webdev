@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 import '../styles/globals.scss'
 import '../styles/search.css'
+import '../styles/create.css'
 import ColorModeContext from 'context/ColorModeContext'
 import { SessionProvider } from 'next-auth/react'
 import SnackbarContext, { Snack } from 'context/SnackbarContext'
