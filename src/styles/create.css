@@ -23,6 +23,7 @@
 .example {
   margin-top: 20px;
   display: flex;
+  justify-content: space-between;
 }
 
 .example > span {
@@ -69,13 +70,9 @@
   flex: 1;
 }
 
-.MuiIconButton-root{
-  color: grey !important;
-}
 .create_example_btn{
   cursor: pointer;
 }
-
-fieldset{
-  border-color: grey !important;
+.example-btn-group{
+  display: flex;
 }

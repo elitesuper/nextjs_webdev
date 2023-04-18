@@ -70,9 +70,6 @@ function TabPanel(props: {
               <ListItemButton>
                 <ListItemText
                   primary={text}
-                  sx={{
-                    color: 'black',
-                  }}
                 />
               </ListItemButton>
             </ListItem>

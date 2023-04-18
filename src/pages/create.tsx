@@ -107,6 +107,7 @@ export default function Home() {
             </div>
             <div className="example">
               <Typography>{languagejson[lang].Showexample}:</Typography>
+              <div className='example-btn-group'>
               <div className="item create_example_btn" onClick={()=>{alert("Voice Open")}}>
                 <CameraAltIcon
                   sx={{
@@ -127,6 +128,7 @@ export default function Home() {
                     fontSize: 80,
                   }}
                 />
+              </div>
               </div>
             </div>
             <div className="location">
