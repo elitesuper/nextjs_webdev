@@ -19,6 +19,7 @@ import languagejson from "../language.json"
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
+import { Typography } from '@mui/material'
 
 
 export default function Home() {
@@ -48,14 +49,11 @@ export default function Home() {
       <div className="page">
         <div className="create">
           <div className="header">
-            <div>{languagejson[lang].Ican}</div>
             <TextField
               placeholder="What can you do?"
               id="input-with-icon-textfield"
               sx={{
                 width: '100%',
-                color:'black !important',
-                'background-color': 'white',
               }}
               variant="outlined"
               InputProps={{
@@ -69,7 +67,7 @@ export default function Home() {
           </div>
           <div className="main">
             <div className="feeling">
-              <span>{languagejson[lang].Bad}</span>
+              <Typography>{languagejson[lang].Bad}</Typography>
               <Slider
                 value={slideValue}
                 color="secondary"
@@ -80,10 +78,10 @@ export default function Home() {
                 }}
                 onChange={e=>setCan({...can, slideValue:e.target.value})}
               />
-              <span>{languagejson[lang].Verygood}</span>
+              <Typography>{languagejson[lang].Verygood}</Typography>
             </div>
             <div className="example">
-              <span>{languagejson[lang].Showexample}:</span>
+              <Typography>{languagejson[lang].Showexample}:</Typography>
               <div className="item create_example_btn" onClick={()=>{alert("Voice Open")}}>
                 <CameraAltIcon
                   sx={{
@@ -118,7 +116,6 @@ export default function Home() {
                 id="input-with-icon-textfield"
                 sx={{
                   width: '100%',
-                  'background-color': 'white',
                 }}
                 variant="outlined"
                 InputProps={{
@@ -143,7 +140,6 @@ export default function Home() {
                 onChange={handleWhenDateChange}
                 renderInput={(props) => <TextField sx={{
                   marginRight: '20px',
-                  // border:'solid 2px gray',
                 }} {...props} />}
               />
               <TextField
@@ -169,7 +165,6 @@ export default function Home() {
                 variant="outlined"
                 renderInput={(props) => <TextField sx={{
                   marginRight: '20px',
-                  // border:'solid 2px gray',
                 }} {...props} />}
               />
               <span
@@ -185,7 +180,6 @@ export default function Home() {
                 variant="outlined"
                 renderInput={(props) => <TextField sx={{
                   marginLeft: '20px',
-                  // border:'solid 2px gray',
                 }} {...props} />}
               />
             </div>

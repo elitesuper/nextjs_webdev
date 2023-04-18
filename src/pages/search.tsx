@@ -18,6 +18,7 @@ import {
   Radio,
   Tab,
   Tabs,
+  Typography,
 } from '@mui/material'
 import { AvTimer, Group, LocationOn, Share, Star } from '@mui/icons-material'
 import Image from 'next/image'
@@ -215,14 +216,11 @@ export default function Home() {
       <div className="page">
         <div className="search">
           <div className="header">
-            <div>{languagejson[lang].Ineed}</div>
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
               sx={{
-                background: 'white',
-                color: 'black',
                 display: 'flex',
                 padding: '5px 10px 0',
                 borderRadius: '10px',
@@ -259,7 +257,6 @@ export default function Home() {
               placeholder={languagejson[lang].whatYouAreLookingFor}
               sx={{
                 width: '100%',
-                'background-color': 'white',
               }}
               variant="outlined"
               InputProps={{
@@ -274,7 +271,6 @@ export default function Home() {
               placeholder={languagejson[lang].Where}
               sx={{
                 width: '100%',
-                'background-color': 'white',
                 marginTop: '20px',
               }}
               variant="outlined"
@@ -362,7 +358,7 @@ export default function Home() {
             {['Lawyer', 'Support group', 'Humanitarian Organization'].map(
               (text, i) => (
                 <div className="item" key={text}>
-                  <span className="name">{text}</span>
+                  <Typography className="name">{text}</Typography>
                   {i === 1 ? (
                     <Group
                       sx={{
