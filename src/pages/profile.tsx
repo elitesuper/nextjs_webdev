@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { getSession } from 'next-auth/react'
 import FullLayout from '@layouts/FullLayout/FullLayout'
 import MenuIcon from '@mui/icons-material/Menu'
 import Image from 'next/image'
@@ -25,9 +24,10 @@ import SnackbarContext, { Snack } from 'context/SnackbarContext'
 import { type AlertColor } from '@mui/material/Alert'
 import { Fade, ListItemIcon, Menu, MenuItem } from '@mui/material'
 import * as MenuData from '@constants/Menu.json'
+import {StatusData} from '@constants/Status'
+import { getSession, signOut } from 'next-auth/react'
+
 const { data: MenuDatas } = MenuData
-
-
 
 
 
@@ -50,7 +50,9 @@ export default function Profile() {
   const [profession, setProfession] = React.useState('')
   const [education, setEducation] = React.useState('')
   const [hobby, setHobby] = React.useState('')
+  const [carExist, setCarExist] = React.useState('')
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [status, setStatus] = React.useState(0)
 
 
   const topen = Boolean(anchorEl)
@@ -74,6 +76,7 @@ export default function Profile() {
   const saveProfile = () => {
 
     let userData = {
+      email,
       firstName,
       lastName,
       company,
@@ -81,7 +84,8 @@ export default function Profile() {
       address,
       profession,
       education,
-      hobby
+      hobby,
+      carExist
     }
 
     updateUser(userData)
@@ -105,15 +109,17 @@ export default function Profile() {
 async function loadpic () {
   await fetch('api/user/currentUser').then(res=>res.json()).then(
     res => {
-      setEmail(res.data[0].email);
-      setFirstName(res.data[0].firstName);
-      setLastName(res.data[0].lastName);
-      setCompany(res.data[0].company);
-      setTelephone(res.data[0].telephone);
-      setAddress(res.data[0].address);
-      setProfession(res.data[0].profession);
-      setEducation(res.data[0].education);
-      setHobby(res.data[0].hobby);
+      setEmail(res.data[0].email || "");
+      setFirstName(res.data[0].firstName || "");
+      setLastName(res.data[0].lastName || "");
+      setCompany(res.data[0].company || "");
+      setTelephone(res.data[0].telephone || "");
+      setAddress(res.data[0].address || "");
+      setProfession(res.data[0].profession || "");
+      setEducation(res.data[0].education || "");
+      setHobby(res.data[0].hobby || "");
+      setStatus(parseInt(res.data[0].status) || 0);
+      setStatus(res.data[0].carExist || "");
     }
   ).catch(
     err =>{
@@ -330,7 +336,7 @@ async function loadpic () {
             </Typography>
           </Box>
 
-          <Typography>{email}</Typography>
+            <Typography>{StatusData.mydata[0].name[lang]}</Typography>
             <Button
               variant="contained"
               color="secondary"
@@ -354,6 +360,7 @@ async function loadpic () {
               </Button>
             </div>
             <Collapse in={open}>
+              <TextField fullWidth value={email} margin="normal" label="Email" onChange={e => {setEmail(e.target.value)}}/>
               <TextField fullWidth value={firstName} margin="normal" label="Firstname" onChange={e => {setFirstName(e.target.value)}}/>
               <TextField fullWidth value={lastName} margin="normal" label="Surname" onChange={e => {setLastName(e.target.value)}}/>
               <TextField
@@ -387,6 +394,7 @@ async function loadpic () {
               <TextField fullWidth value={address} margin="normal" label="Address" onChange={e => {setAddress(e.target.value)}}/>
               <TextField fullWidth value={profession} margin="normal" label="Profession" onChange={e => {setProfession(e.target.value)}}/>
               <TextField fullWidth value={education} margin="normal" label="Education" onChange={e => {setEducation(e.target.value)}}/>
+              <TextField fullWidth value={carExist} margin="normal" label="Do you have Car" onChange={e => {setCarExist(e.target.value)}}/>
               <TextField fullWidth value={hobby} margin="normal" label="Hobby" onChange={e => {setHobby(e.target.value)}}/>
               <ButtonGroup variant="contained" sx={{ mt: 2 }} fullWidth>
                 <Button onClick={saveProfile}>{languagejson[lang].Savechanges}</Button>

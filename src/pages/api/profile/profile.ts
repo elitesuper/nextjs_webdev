@@ -15,7 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   })
 
 
-  const { firstName, lastName, company, telephone, address, profession, education, hobby } = req.body
+  const { firstName, lastName, company, telephone, address, profession, education, hobby, email, carExist } = req.body
   const client = await connectToDatabase()
 
   const usersCollection = client.db().collection('users')
@@ -28,7 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     {
       $set: {
-        firstName, lastName, company, telephone, address, profession, education, hobby, geoLocation
+        email, firstName, lastName, company, telephone, address, profession, education, hobby, geoLocation, carExist
       },
     }
   )

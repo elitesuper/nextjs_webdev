@@ -13,7 +13,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const data = req.body
 
   const { email, password, birthday, nickname, sex, lang } = data
-  
+  const status = 0
   if (
     !email ||
     !email.includes('@') ||
@@ -83,7 +83,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     sec,
     enable,
     verify_code,
-    code_send_time
+    code_send_time,
+    status
   })
 
   await db.collection('settings').insertOne({
