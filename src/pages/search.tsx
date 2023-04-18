@@ -141,50 +141,17 @@ export default function Home() {
 
   },[])
 
+  useEffect(()=>{
+    const elements = document.getElementsByClassName('mapboxgl-control-container');
+    if(elements.length > 0){
+      elements[0].remove();
+    }
+  })
+
   const handleClose = () => {
     router.back()
   }
   
-  useEffect(() => {
-    // Todo
-    /*
-    const getCurrentSetting = async () => {
-      const response = await fetch('/api/setting/currentSetting', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      let settingData = await response.json()
-      setLanguage(settingData.data[0].language)
-
-    }
-    
-    getCurrentSetting()
-    */
-
-    const ip = cookies.get("user-ip") ?? "";
-    const getCountry = async (ip: any) => {
-      const response = await fetch(`https://ipapi.co/${ip}/country`)
-      const countryCode = await response.text()
-      switch (countryCode) {
-        case 'RU':
-          setLanguage(2)
-          break
-        case 'DE':
-          setLanguage(1)
-          break
-        case 'UA':
-          setLanguage(3)
-          break
-        default:
-          setLanguage(0)
-      }
-    }
-    getCountry(ip)
-  }, [])
-
   const handleChange = (
     event: React.SyntheticEvent | Event,
     newValue: number

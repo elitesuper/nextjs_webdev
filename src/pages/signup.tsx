@@ -205,7 +205,7 @@ export default function SignUp() {
       nickname,
       birthday,
       sex,
-      language
+      lang
     })
     setLoading(false)
     setSnack(

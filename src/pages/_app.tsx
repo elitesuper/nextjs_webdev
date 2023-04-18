@@ -16,8 +16,14 @@ import { SessionProvider } from 'next-auth/react'
 import SnackbarContext, { Snack } from 'context/SnackbarContext'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import DateFnsUtils from '@date-io/date-fns'
+import { useAtom } from 'jotai'
+import {language} from "../jotai"
+
+type LanguageType = number; // Replace 'number' with the actual type of your language state
+
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [lang, setLanguage] = useAtom<LanguageType>(language)
   const [mode, setMode] = React.useState<PaletteMode>('dark')
   const colorMode = React.useMemo(
     () => ({
@@ -64,6 +70,15 @@ export default function App({ Component, pageProps }: AppProps) {
       })
     )
   }
+
+
+  React.useEffect(() => {
+    const local:any = localStorage.getItem('language');
+    const storedValue:any = parseInt(local) || 0;
+    if (storedValue) {
+      setLanguage(storedValue as LanguageType);
+    }
+  }, []);
 
   return (
     <LocalizationProvider dateAdapter={DateFnsUtils}>

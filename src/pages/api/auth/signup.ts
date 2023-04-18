@@ -12,7 +12,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const data = req.body
 
-  const { email, password, birthday, nickname, sex, language } = data
+  const { email, password, birthday, nickname, sex, lang } = data
   
   if (
     !email ||
@@ -86,9 +86,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     code_send_time
   })
 
-  const setting = await db.collection('settings').insertOne({
+  await db.collection('settings').insertOne({
     user_id: user.insertedId,
-    language: language,
+    language: lang,
     modus: 0,
     status: 0,
     show_firstname: 0,
