@@ -74,7 +74,9 @@
         "Where": "Where?",
         "RESULT" : "RESULT",
         "Results":"Results",
-        "Favourites":"Favourites"
+        "Favourites":"Favourites",
+        "ONLINE":"ONLINE",
+        "SAVED":"SAVED"
     },
     {
         "Message":"Nachricht",
@@ -151,7 +153,9 @@
         "Where": "Wo?",
         "RESULT" : "ERGEBNIS",
         "Results":"Ergebnisse",
-        "Favourites":"Favoriten"
+        "Favourites":"Favoriten",
+        "ONLINE":"ONLINE",
+        "SAVED":"GERETTET"
     },
     {
         "Message":"повідомлення",
@@ -228,7 +232,9 @@
         "Where": "где?",
         "RESULT" : "РЕЗУЛЬТАТ",
         "Results":"Результаты",
-        "Favourites":"Избранное"
+        "Favourites":"Избранное",
+        "ONLINE":"В СЕТИ",
+        "SAVED":"СОХРАНЕНО"
     },
     {
         "Message":"повідомлення",
@@ -305,6 +311,8 @@
         "Where": "где?",
         "RESULT" : "РЕЗУЛЬТАТ",
         "Results":"Результаты",
-        "Favourites":"Избранное"
+        "Favourites":"Избранное",
+        "ONLINE":"В СЕТИ",
+        "SAVED":"СОХРАНЕНО"
     }
 ]

@@ -22,16 +22,113 @@ import languagejson from "../language.json"
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
-import { FormControl, IconButton, MenuItem, Select, Typography } from '@mui/material'
+import { FormControl, IconButton, List, ListItem, ListItemButton, ListItemText, MenuItem, Select, Tab, Tabs, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { SelectChangeEvent } from '@mui/material/Select';
+import {
+  LeadingActions,
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions,
+} from 'react-swipeable-list';
+import 'react-swipeable-list/dist/styles.css';
+import { AvTimer, Group, LocationOn, Share, Star } from '@mui/icons-material'
 
+const TabPanel = (props: {
+  children: React.ReactNode
+  value: number
+  index: number
+}) => {
+
+  
+const leadingActions = () => (
+  <LeadingActions>
+    <SwipeAction onClick={() => console.info('swipe action triggered')}>
+    </SwipeAction>
+  </LeadingActions>
+);
+
+const trailingActions = () => (
+  <TrailingActions>
+    <SwipeAction
+      destructive={true}
+      onClick={() => console.info('swipe action triggered')}
+    >
+    </SwipeAction>
+  </TrailingActions>
+);
+
+
+  const { value, index, ...other } = props
+
+  
+  const [listItems, setListItems] = useState([
+    { id: 1, title: 'Item 1' },
+    { id: 2, title: 'Item 2' },
+    { id: 3, title: 'Item 3' },
+    { id: 4, title: 'Item 4' },
+  ]);
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}>
+      {value === index && (
+        <List dense>
+          {
+            <SwipeableList>
+          {listItems.map((item) => (
+              <SwipeableListItem
+                leadingActions={leadingActions()}
+                trailingActions={trailingActions()}
+              >
+                <ListItem
+                  disablePadding
+                  secondaryAction={
+                    <>
+                      <IconButton edge="end" aria-label="share">
+                        <Share/>
+                      </IconButton>
+                      <IconButton edge="end" aria-label="star">
+                        <Star color="success" />
+                      </IconButton>
+                    </>
+                  }>
+                  <ListItemButton>
+                    <ListItemText
+                      primary={item.title}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </SwipeableListItem>
+          ))}
+          </SwipeableList>
+          }
+        </List>
+      )}
+    </div>
+  )
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
 
 export default function Home() {
   const [lang, setLanguage] = useAtom(language)
   const [slideValue, setSlideValue] = useState(0)
   const [data, setData] = useState([])
   const router = useRouter();
+
+  const [value, setValue] = useState(0)
+
 
   const[can, setCan] = useState({slideValue:0, when:null, from:null, until:null, desc:"", price:0, payType:0});
 
@@ -50,6 +147,14 @@ export default function Home() {
 
   const handleClose = () => {
     router.back()
+  }
+
+  
+  const handleChange = (
+    event: React.SyntheticEvent | Event,
+    newValue: number
+  ) => {
+    setValue(newValue)
   }
 
   const submitpublishorsave = () => {
@@ -292,21 +397,13 @@ export default function Home() {
                 sx={{
                   width: '150px',
                 }}
-                variant="contained"
-                disabled>
-                {languagejson[lang].Send}
-              </Button>
-              <Button
-                sx={{
-                  width: '150px',
-                }}
                 variant="outlined">
                 {languagejson[lang].Save}
               </Button>
             </div>
           </div>
           <div className="list">
-            {data.length > 0 && data.map(
+            {/* {data.length > 0 && data.map(
               (item, index) => (
                 <div className="item" key={index}>
                   <span className="name">{item.desc}</span>
@@ -328,7 +425,62 @@ export default function Home() {
                   />
                 </div>
               )
+            )} */}
+
+          <Box
+            sx={{
+              borderBottom: 1,
+              borderColor: 'divider',
+            }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example">
+              <Tab label={languagejson[lang].ONLINE} {...a11yProps(0)} />
+              <Tab label={languagejson[lang].SAVED} {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            {languagejson[lang].ItemOne}
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            {languagejson[lang].ItemTwo}
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            {languagejson[lang].ItemThree}
+          </TabPanel>
+          <div className="list">
+            {['Lawyer', 'Support group', 'Humanitarian Organization'].map(
+              (text, i) => (
+                <div className="item" key={text}>
+                  <Typography className="name">{text}</Typography>
+                  {i === 1 ? (
+                    <Group
+                      sx={{
+                        fontSize: 24,
+                        marginLeft: '20px',
+                        cursor:'pointer'
+                      }}
+                    />
+                  ) : null}
+                  <LocationOn
+                    sx={{
+                      fontSize: 24,
+                      marginLeft: '20px',
+                      cursor:'pointer'
+                    }}
+                  />
+                  <AvTimer
+                    sx={{
+                      fontSize: 24,
+                      marginLeft: '20px',
+                      cursor:'pointer'
+                    }}
+                  />
+                </div>
+              )
             )}
+          </div>
           </div>
         </div>
       </div>
