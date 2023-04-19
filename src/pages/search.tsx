@@ -31,19 +31,59 @@ import cookies from "browser-cookies";
 import { FullLayout } from '@layouts/index'
 import { useRouter } from 'next/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-
+import {
+  LeadingActions,
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions,
+} from 'react-swipeable-list';
+import 'react-swipeable-list/dist/styles.css';
+// import Swipeable from 'react-swipeable'
 
 
 mapboxgl.accessToken = "pk.eyJ1IjoicmVkMzAxMSIsImEiOiJjbGdjOXp0enAwOXZ5M2hzeGl6ank5Y29yIn0.NaiYYAmHiHFDJ6SRcqrmkg";
 
 
-function TabPanel(props: {
+const TabPanel = (props: {
   children: React.ReactNode
   value: number
   index: number
-}) {
+}) => {
+
+  
+const leadingActions = () => (
+  <LeadingActions>
+    <SwipeAction onClick={() => console.info('swipe action triggered')}>
+    </SwipeAction>
+  </LeadingActions>
+);
+
+const trailingActions = () => (
+  <TrailingActions>
+    <SwipeAction
+      destructive={true}
+      onClick={() => console.info('swipe action triggered')}
+    >
+    </SwipeAction>
+  </TrailingActions>
+);
+
+
   const { value, index, ...other } = props
 
+  
+  const [listItems, setListItems] = useState([
+    { id: 1, title: 'Item 1' },
+    { id: 2, title: 'Item 2' },
+    { id: 3, title: 'Item 3' },
+    { id: 4, title: 'Item 4' },
+  ]);
+
+  const handleRemoveItem = (id: number) => {
+    setListItems(listItems.filter((item) => item.id !== id));
+  };
+  
   return (
     <div
       role="tabpanel"
@@ -53,27 +93,35 @@ function TabPanel(props: {
       {...other}>
       {value === index && (
         <List dense>
-          {['Result1', 'Result2'].map((text) => (
-            <ListItem
-              key={text}
-              disablePadding
-              secondaryAction={
-                <>
-                  <IconButton edge="end" aria-label="share">
-                    <Share/>
-                  </IconButton>
-                  <IconButton edge="end" aria-label="star">
-                    <Star color="success" />
-                  </IconButton>
-                </>
-              }>
-              <ListItemButton>
-                <ListItemText
-                  primary={text}
-                />
-              </ListItemButton>
-            </ListItem>
+          {
+            <SwipeableList>
+          {listItems.map((item) => (
+              <SwipeableListItem
+                leadingActions={leadingActions()}
+                trailingActions={trailingActions()}
+              >
+                <ListItem
+                  disablePadding
+                  secondaryAction={
+                    <>
+                      <IconButton edge="end" aria-label="share">
+                        <Share/>
+                      </IconButton>
+                      <IconButton edge="end" aria-label="star">
+                        <Star color="success" />
+                      </IconButton>
+                    </>
+                  }>
+                  <ListItemButton>
+                    <ListItemText
+                      primary={item.title}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </SwipeableListItem>
           ))}
+          </SwipeableList>
+          }
         </List>
       )}
     </div>
