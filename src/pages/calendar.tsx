@@ -43,7 +43,7 @@ export default function Calendar() {
     setValue(newValue)
   }
   return (
-    <FullLayout title={languagejson[lang].myEvents} menubar={false}>
+    <FullLayout title={languagejson[lang].myEvents}>
       <Tabs value={value} onChange={handleChange} sx={{ width: '100vw' }}>
         <Tab label={languagejson[lang].Week} />
         <Tab label={languagejson[lang].Month} />

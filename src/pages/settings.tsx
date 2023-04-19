@@ -157,7 +157,7 @@ export default function Settings() {
     // setSelectedValues(values)
   }
   return (
-    <FullLayout title={languagejson[lang].Settings} menubar={false}>
+    <FullLayout title={languagejson[lang].Settings}>
       <List
         sx={{
           width: '100vw',

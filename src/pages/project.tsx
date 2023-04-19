@@ -18,7 +18,7 @@ export default function Project() {
   if (!isMounted) return null
 
   return (
-    <FullLayout title="Project 3" menubar={false}>
+    <FullLayout title="Project 3" >
       <Box sx={{ display: 'flex', p: 2 }}>
         <AvTimer /> <Typography sx={{ ml: 2 }}>in 5 weeks</Typography>
       </Box>

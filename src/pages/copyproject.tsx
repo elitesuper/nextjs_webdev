@@ -62,7 +62,7 @@ export default function CopyProject() {
 
   const router = useRouter()
   return (
-    <FullLayout title="Projects" menubar={false} appbar={false}>
+    <FullLayout title="Projects" appbar={false}>
       <Box
         sx={{
           p: 2,

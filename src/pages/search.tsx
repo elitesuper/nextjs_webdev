@@ -80,10 +80,6 @@ const trailingActions = () => (
     { id: 4, title: 'Item 4' },
   ]);
 
-  const handleRemoveItem = (id: number) => {
-    setListItems(listItems.filter((item) => item.id !== id));
-  };
-  
   return (
     <div
       role="tabpanel"
@@ -145,7 +141,6 @@ export default function Home() {
 
     const initializeMap = () => {
 
-      console.log("ddddddddddddddddddddddddddddd")
       const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
@@ -224,7 +219,6 @@ export default function Home() {
             zoom: zoom,
           });
         }
-        // // Move map to searched location
       });
   }
 
