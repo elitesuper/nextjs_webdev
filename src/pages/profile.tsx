@@ -186,7 +186,7 @@ async function loadpic () {
             sx={{
               fontSize: 30,
             }}>
-            {languagejson[lang].Nickname}
+            {`${firstName} ${lastName}`}
           </Typography>
           <IconButton onClick={handleClick}>
             <Image src="/images/menu.png" alt="menu" width={50} height={50} />

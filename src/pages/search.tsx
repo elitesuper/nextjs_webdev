@@ -55,6 +55,7 @@ const TabPanel = (props: {
 const leadingActions = () => (
   <LeadingActions>
     <SwipeAction onClick={() => console.info('swipe action triggered')}>
+    <div></div>
     </SwipeAction>
   </LeadingActions>
 );
@@ -65,6 +66,7 @@ const trailingActions = () => (
       destructive={true}
       onClick={() => console.info('swipe action triggered')}
     >
+      <div></div>
     </SwipeAction>
   </TrailingActions>
 );
@@ -110,7 +112,7 @@ const trailingActions = () => (
                   }>
                   <ListItemButton>
                     <ListItemText
-                      primary={item.title}
+                      primary={<Typography>{item.title}</Typography>}
                     />
                   </ListItemButton>
                 </ListItem>

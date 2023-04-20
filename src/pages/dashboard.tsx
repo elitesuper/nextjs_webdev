@@ -61,6 +61,10 @@ export default function Home() {
     },
   })
 
+  const routerToProfile = () =>{
+    router.push('/profile')
+  }
+
   const fakeContacts = [
       {
         fistname: "Thomas",
@@ -270,6 +274,8 @@ export default function Home() {
           )}
           <Draggable>
             <Box
+              draggable 
+              onDragStart={()=> handleDragStart()} 
               sx={{
                 height: 50,
                 display: 'flex',
@@ -277,7 +283,7 @@ export default function Home() {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <IconButton draggable onDragStart={()=> handleDragStart()} LinkComponent={Link} href="/profile">
+              <IconButton onClick={()=>routerToProfile()}>
                 <Image
                   src="/images/main.png"
                   alt="main"
