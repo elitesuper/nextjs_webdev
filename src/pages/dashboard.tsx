@@ -269,13 +269,12 @@ export default function Home() {
               <Image src="/images/mail.png" alt="mail" width={50} height={50} />
             </Badge>
           </IconButton>
+
           {isDragging && (
             <Image src="/images/arrow.png" alt="left" width={50} height={50} />
           )}
-          <Draggable>
+
             <Box
-              draggable 
-              onDragStart={()=> handleDragStart()} 
               sx={{
                 height: 50,
                 display: 'flex',
@@ -300,7 +299,6 @@ export default function Home() {
                 I
               </Typography>
             </Box>
-          </Draggable>
 
           {isDragging && (
             <Image
