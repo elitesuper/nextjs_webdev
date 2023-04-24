@@ -8,8 +8,10 @@
     }
   },
   "scripts": {
-    "dev": "next dev",
+    "dev:chat": "next dev",
     "build": "next build",
+    "dev:next": "node server/server.js",
+    "dev": "concurrently \"npm run dev:chat\" \"npm run dev:next\"",
     "start": "next start",
     "lint": "next lint"
   },
@@ -31,9 +33,11 @@
     "body-parser": "^1.20.2",
     "browser-cookies": "^1.2.0",
     "classnames": "^2.3.2",
+    "cors": "^2.8.5",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
     "eslint-plugin-react": "^7.31.11",
+    "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "jotai": "^2.0.3",
     "mapbox-gl": "^2.13.0",
@@ -55,12 +59,14 @@
     "socket.io-client": "^4.6.1",
     "swr": "^2.0.0",
     "typescript": "4.9.4",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.1.1",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
+    "concurrently": "^8.0.1",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.7",
     "eslint-config-prettier": "^8.6.0",

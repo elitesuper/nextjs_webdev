@@ -82,25 +82,27 @@ export default function Chat() {
   //   socketInitializer();
   // }, []);
 
-  
 
-  const sendMessage = async () => {
-    // console.log(session?.user?.email + 'send to ' + email + '. msg content:' + message)
-    // socket.emit("createdMessage", { author: session?.user?.email, message });
-    // setMessages((currentMsg) => [
-    //   ...currentMsg,
-    //   { author: session?.user?.email, message: message },
-    // ]);
-    // setMessage("");
+  useEffect(() => {
+    console.log(process.env.NEXT_PUBLIC_CHAT_URI)
+    socket = io(process.env.NEXT_PUBLIC_CHAT_URI);
+    return () => socket.disconnect();
+  }, []);
 
-    const response = await fetch('/api/message/message', {
-      method: 'POST',
-      body: JSON.stringify(messageObj),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  }
+  useEffect(() => {
+    socket.on('newMessage', (msg:any) => {
+      setMessages((prevState) => [...prevState, msg]);
+    });
+  }, []);
+
+  const sendMessage = (e:any) => {
+    e.preventDefault();
+    console.log("here")
+    if (!message) return;
+    socket.emit('sendMessage', message);
+    setMessage('');
+  };
+
 
   return (
     <FullLayout title="Chat" appbar={false}>
@@ -141,14 +143,14 @@ export default function Chat() {
           </IconButton>
         </Box>
         <Stack sx={{ flex: 1, overflow: 'auto', p: 1 }}>
-          {messages.map((_, i) => (
+          {messages.map((message, i) => (
             <Fragment key={i}>
               <Typography alignSelf={'center'}>1/9/2023</Typography>
               <Box
                 alignSelf={'start'}
                 bgcolor="success.main"
                 sx={{ borderRadius: 2, p: 1, px: 2, m: 1, maxWidth: '80%' }}>
-                <Typography>Hello. Nice to meet you.</Typography>
+                <Typography>{message}</Typography>
               </Box>
               <Box
                 alignSelf={'end'}
@@ -166,8 +168,8 @@ export default function Chat() {
             display: 'flex',
             p: 2,
           }}>
-          {/* <TextField sx={{ flexGrow: 1 }} variant="standard" onChange={(e) => setMessage(e.target.value)}/> */}
-          <TextField sx={{ flexGrow: 1 }} variant="standard" onChange={(e) => setMessageObj({message: e.target.value})}/>
+          <TextField value={message} sx={{ flexGrow: 1 }} variant="standard" onChange={(e) => setMessage(e.target.value)}/>
+          {/* <TextField sx={{ flexGrow: 1 }} variant="standard" onChange={(e) => setMessageObj({message: e.target.value})}/> */}
           <IconButton
             sx={{
               bgcolor: 'info.main',
@@ -176,7 +178,7 @@ export default function Chat() {
               height: 40,
               ml: 2,
             }}
-            onClick={() => sendMessage()}
+            onClick={(e) => sendMessage(e)}
             >
             <MailIcon />
           </IconButton>
