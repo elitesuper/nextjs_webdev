@@ -131,3 +131,5 @@ dist
 .pnp.*
 /yarn.lock
 /package-lock.json
+/.env.development
+/.env.production
