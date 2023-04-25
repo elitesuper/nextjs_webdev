@@ -43,52 +43,22 @@ export default function Chat() {
   const [username, setUsername] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
   const [messages, setMessages] = useState<Array<Message>>([]);
-
-  // useEffect(() => {
-  //   const socketInitializer = async () => {
-  //     console.log("send socket api")
-  //     await fetch("/api/socket", {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({email: email})
-  //     });
-  
-  //     socket = io();
-  
-  //     socket.on("connect", () => {
-  //       console.log("connected=", socket.id); // x8WIv7-mJelg7on_ALbx
-  //     });
-  
-  //     socket.on("disconnect", () => {
-  //       console.log("disconnected=", socket.id)
-  //       socket.emit("disconnected", { id: socket.id });
-  //     });
-  
-  //     socket.on("newIncomingMessage", (msg:Message) => {
-  //       console.log(msg.message + ' from ' + msg.author)
-  //       setMessages((currentMsg) => [
-  //         ...currentMsg,
-  //         { author: msg.author, message: msg.message },
-  //       ]);
-  //       console.log(messages);
-  //     });
-  //   };
-    
-  //   if (connectSocketRef.current) return;
-  //   connectSocketRef.current = true;
-  //   socketInitializer();
-  // }, []);
-
-
   useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_CHAT_URI)
     socket = io(process.env.NEXT_PUBLIC_CHAT_URI);
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket server');
+
+      // Fetch existing messages from the server
+      socket.emit('getMessages');
+    });
     return () => socket.disconnect();
   }, []);
 
   useEffect(() => {
+    socket.on('messages', (msgs:any) => {
+      console.log(msgs)
+      setMessages(msgs);
+    });
     socket.on('newMessage', (msg:any) => {
       console.log(msg)
       setMessages((prevState) => [...prevState, msg]);
