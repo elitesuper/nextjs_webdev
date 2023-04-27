@@ -157,13 +157,14 @@ export default function Messages() {
                   sx={{
                     background: (user.sex != null ? (user.sex == 'male' ? 'rgb(0,176,240)' : 'rgb(255,18,239)') : 'rgb(47,255,79)'),
                     borderRadius: 2,
+                    padding: 0,
                   }}>
                   <Badge badgeContent={0} color="error">
                     <Image
                       src={(user.picpath == "" || user.picpath == undefined) ? `/images/${(user.sex != null ? user.sex : 'male')}.png` : `/api/view?name=${user.picpath}`}
                       alt={(user.sex != null ? user.sex : '')}
-                      width={50}
-                      height={50}
+                      width={70}
+                      height={70}
                     />
                   </Badge>
                 </IconButton>
