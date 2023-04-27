@@ -65,20 +65,6 @@ export default function Home() {
     router.push('/profile')
   }
 
-  const fakeContacts = [
-      {
-        fistname: "Thomas",
-        lastname: "Jefferson",
-        telephone: 1111111111111,
-        address: "white house 2"
-      },
-      {
-        fistname: "George",
-        lastname: "Washinton",
-        telephone: 222222222222,
-        address: "white house 1"
-      }
-    ]
 
   useEffect(() => {
     // Todo
@@ -100,10 +86,6 @@ export default function Home() {
     
   }, [])
   
-  const handleDragStart = () => {
-
-  }
-
   const ImportContacts = async () => {
     // const response = await fetch('/api/contact/contact', {
     //   method: 'POST',
