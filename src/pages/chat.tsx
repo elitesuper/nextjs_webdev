@@ -42,6 +42,8 @@ export default function Chat() {
   const [pic, setPic] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
   const [messages, setMessages] = useState<Array<Message>>([]);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     socket = io(process.env.NEXT_PUBLIC_CHAT_URI);
     socket.on('connect', () => {
@@ -129,6 +131,15 @@ export default function Chat() {
     }
   }
 
+  
+  useEffect(() => {
+    // ...socket.io setup and message handling...
+
+    // Scroll to the bottom when new messages arrive
+    const chatWindow = chatWindowRef.current;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }, [messages]);
+
   return (
     <FullLayout title="Chat" appbar={false}>
       <Box
@@ -167,7 +178,13 @@ export default function Chat() {
             <ArrowBackIcon />
           </IconButton>
         </Box>
-        <Stack sx={{ flex: 1, overflow: 'auto', p: 1 }}>
+        <Stack 
+          ref = {chatWindowRef}
+          sx={{ 
+            flex: 1, 
+            overflowY: 'scroll', 
+            p: 1 
+          }}>
           {messages.map((message, i) => (
             <Fragment key={i}>
               <Typography alignSelf={'center'}>{CheckDate(message, messages, i)}</Typography>
