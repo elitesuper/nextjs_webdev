@@ -35,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     email: session?.user?.email,
   })
 
-  const messageCollection = client.db().collection('messages')
+  const messageCollection = client.db().collection('messagestagger')
 
   let message = req.body.message
 
@@ -59,8 +59,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   messageObj['current_date'] = current_date
   messageObj['current_time'] = current_time
   messageObj['author'] = user?.firstName + ' ' + user?.lastName
-  messageObj['length_of_firstname'] = user?.firstName.length
-  messageObj['length_of_lastname'] = user?.lastName.length
+  messageObj['length_of_firstname'] = user?.firstName?.length ?? 0
+  messageObj['length_of_lastname'] = user?.lastName?.length ?? 0
   
   await messageCollection.insertOne(messageObj)
 

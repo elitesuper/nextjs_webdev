@@ -34,7 +34,6 @@ export default function Chat() {
   const router = useRouter()
   const { email } = router.query
 
-  const connectSocketRef = useRef(false);
   const [lang, setLanguage] = useAtom(language)
 
   const { data: session } = useSession()
@@ -75,6 +74,23 @@ export default function Chat() {
     if (!message) return;
     if (inputValue.trim() == '') return;
     socket.emit('sendMessage', message);
+    const fetchData = async() => { 
+      const responseData = {message:message.content}
+      try{
+        const response = await fetch('/api/message/message', {
+          method: 'POST',
+          body: JSON.stringify(responseData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+
+      } catch (error){
+        console.log(error)
+      }
+    }
+  
+    fetchData();
     setInputValue('');
   };
 
@@ -183,8 +199,17 @@ export default function Chat() {
             display: 'flex',
             p: 2,
           }}>
-          <TextField value={inputValue} sx={{ flexGrow: 1 }} variant="standard" onChange={(e) => setInputValue(e.target.value)}/>
-          {/* <TextField sx={{ flexGrow: 1 }} variant="standard" onChange={(e) => setMessageObj({message: e.target.value})}/> */}
+          <TextField 
+            value={inputValue} 
+            sx={{ flexGrow: 1 }} 
+            variant="standard" 
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyPress={(e) => {
+              if(e.key === 'Enter'){
+                sendMessage(e)
+              }
+            }}
+            />
           <IconButton
             sx={{
               bgcolor: 'info.main',
