@@ -160,7 +160,7 @@ export default function Messages() {
                   }}>
                   <Badge badgeContent={0} color="error">
                     <Image
-                      src={`/images/${(user.sex != null ? user.sex : 'male')}.png`}
+                      src={(user.picpath == "" || user.picpath == undefined) ? `/images/${(user.sex != null ? user.sex : 'male')}.png` : `/api/view?name=${user.picpath}`}
                       alt={(user.sex != null ? user.sex : '')}
                       width={50}
                       height={50}

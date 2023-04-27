@@ -105,13 +105,13 @@ export default function Home() {
   }
 
   const ImportContacts = async () => {
-    const response = await fetch('/api/contact/contact', {
-      method: 'POST',
-      body: JSON.stringify(fakeContacts),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    // const response = await fetch('/api/contact/contact', {
+    //   method: 'POST',
+    //   body: JSON.stringify(fakeContacts),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
   }
 
   return (
