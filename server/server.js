@@ -30,8 +30,13 @@ io.on('connection', (socket) => {
     console.log('User disconnected!');
   });
 
-  socket.on('getMessages', async () => {
-    const messages = await(await messagesCollection()).find().toArray();
+  socket.on('getMessages', async (message) => {
+    const { to, author } = message;
+    const messages = await(await messagesCollection()).find({
+      $or:[
+        {author:author, to:to},
+        {author:to, to:author},
+      ],}).toArray();
     socket.emit('messages', messages);
   });
 
@@ -40,7 +45,6 @@ io.on('connection', (socket) => {
     io.emit('newMessage', message);
   });
 
-  socket.emit('getMessages');
 });
 
 server.listen(4000, () => {

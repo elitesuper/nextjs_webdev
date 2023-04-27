@@ -17,10 +17,9 @@ import {language} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
 import io from "socket.io-client";
-import { timestampToFormattedDate } from "@lib/utils";
+import { formatTime, timestampToFormattedDate } from "@lib/utils";
 
 let socket:any;
-let email:string;
 
 type Message = {
   author: string;
@@ -49,18 +48,16 @@ export default function Chat() {
       console.log('Connected to WebSocket server');
 
       // Fetch existing messages from the server
-      socket.emit('getMessages');
+      socket.emit('getMessages', {to:email, author:session?.user.email});
     });
     return () => socket.disconnect();
   }, []);
 
   useEffect(() => {
     socket.on('messages', (msgs:any) => {
-      console.log(msgs)
       setMessages(msgs);
     });
     socket.on('newMessage', (msg:any) => {
-      console.log(msg)
       setMessages((prevState) => [...prevState, msg]);
     });
   }, []);
@@ -70,7 +67,9 @@ export default function Chat() {
     const message = {
       author: session?.user.email,
       content: inputValue,
-      timestamp: timestampToFormattedDate(Date.now())
+      to:email,
+      date: timestampToFormattedDate(Date.now()),
+      time: formatTime()
     }
     if (!message) return;
     if (inputValue.trim() == '') return;
@@ -78,6 +77,16 @@ export default function Chat() {
     setInputValue('');
   };
 
+  const CheckDate = (message, messages, i) => {
+
+    if(messages[i-1] === undefined){
+      console.log("Here")
+      return message.date
+    }
+    if(messages[i-1].date ==! messages.date){
+      return messages.date
+    }
+  }
 
   return (
     <FullLayout title="Chat" appbar={false}>
@@ -120,13 +129,14 @@ export default function Chat() {
         <Stack sx={{ flex: 1, overflow: 'auto', p: 1 }}>
           {messages.map((message, i) => (
             <Fragment key={i}>
-              <Typography alignSelf={'center'}>{message.timestamp}</Typography>
+              <Typography alignSelf={'center'}>{CheckDate(message, messages, i)}</Typography>
               {
                 (message.author != session?.user.email) ? <Box
                 alignSelf={'start'}
                 bgcolor="success.main"
                 sx={{ borderRadius: 2, p: 1, px: 2, m: 1, maxWidth: '80%' }}>
                 <Typography>{message.content}</Typography>
+                <Typography sx={{fontSize:'10px'}}>{message.time}</Typography>
               </Box> :
               <Box
                 alignSelf={'end'}
@@ -134,6 +144,7 @@ export default function Chat() {
                 bgcolor="info.main"
                 sx={{ borderRadius: 2, p: 1, px: 2, m: 1, maxWidth: '80%' }}>
                 <Typography>{message.content}</Typography>
+                <Typography sx={{fontSize:'10px'}}>{message.time}</Typography>
               </Box>
               }
               
