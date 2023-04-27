@@ -136,9 +136,9 @@ export default function Chat() {
               borderRadius: 2,
               width: 70,
               height: 70,
-              padding: 1,
+              // padding: 1,
             }}>
-            <Image src={(pic == "") ? `/images/male.png` : `/api/view?name=${pic}`} alt="male" width={50} height={50} />
+            <Image src={(pic == "" || pic == undefined) ? `/images/male.png` : `/api/view?name=${pic}`} alt="male" width={70} height={70} />
           </Box>
           <Typography sx={{ flexGrow: 1 }}>{email}</Typography>
 
