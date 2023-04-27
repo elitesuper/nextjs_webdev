@@ -40,6 +40,7 @@ export default function Chat() {
   const { data: session } = useSession()
 
   const [username, setUsername] = useState("");
+  const [pic, setPic] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
   const [messages, setMessages] = useState<Array<Message>>([]);
   useEffect(() => {
@@ -77,10 +78,34 @@ export default function Chat() {
     setInputValue('');
   };
 
+  useEffect(() => {
+  
+      const fetchData = async() => { 
+        
+        const responseData = {email:email}
+        try{
+          const response = await fetch('/api/user/getuser', {
+            method: 'POST',
+            body: JSON.stringify(responseData),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+
+          const res = await response.json();
+
+          setPic(res.data[0].picpath)
+
+        } catch (error){
+          console.log(error)
+        }
+    }
+    
+    fetchData();
+  }, [])
   const CheckDate = (message, messages, i) => {
 
     if(messages[i-1] === undefined){
-      console.log("Here")
       return message.date
     }
     if(messages[i-1].date ==! messages.date){
@@ -113,7 +138,7 @@ export default function Chat() {
               height: 70,
               padding: 1,
             }}>
-            <Image src={`/images/male.png`} alt="male" width={50} height={50} />
+            <Image src={(pic == "") ? `/images/male.png` : `/api/view?name=${pic}`} alt="male" width={50} height={50} />
           </Box>
           <Typography sx={{ flexGrow: 1 }}>{email}</Typography>
 
