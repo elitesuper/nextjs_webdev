@@ -28,6 +28,7 @@ export default function Home() {
   const [lang, setLanguage] = useAtom(language)
   const energy = 54
   const opportunity = 21
+  const [unread, SetUnread] = React.useState(0)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const open = Boolean(anchorEl)
@@ -78,6 +79,48 @@ export default function Home() {
     getCurrentSetting()
     
   }, [])
+
+  useEffect(() => {
+    // Todo
+    
+    const getCurrentSetting = async () => {
+      const response = await fetch('/api/setting/currentSetting', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      let settingData = await response.json()
+      localStorage.setItem('language', settingData.data[0].language)
+      setLanguage(settingData.data[0].language)
+    }
+    
+    getCurrentSetting()
+    
+  }, [])
+
+  useEffect(() =>{
+    const getUnreadMessage = async () => {
+      const response = await fetch('/api/message/getUnreadMessages',{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+
+      let data = await response.json()
+
+      console.log('unreadmessages', data)
+
+
+      if(data.data.count > 0){
+        SetUnread(data.data.count)
+      }
+    }
+
+    getUnreadMessage()
+  })
 
   const ImportContacts = async () => {
     // const response = await fetch('/api/contact/contact', {
@@ -238,9 +281,12 @@ export default function Home() {
             justifyContent: 'space-between',
           }}>
           <IconButton LinkComponent={Link} href="/messages">
-            <Badge badgeContent={7} color="error">
+            {unread > 0 ? <Badge badgeContent={unread} color="error">
               <Image src="/images/mail.png" alt="mail" width={50} height={50} />
-            </Badge>
+            </Badge>:<Badge color="error">
+              <Image src="/images/mail.png" alt="mail" width={50} height={50} />
+            </Badge>}
+            
           </IconButton>
 
           {isDragging && (
