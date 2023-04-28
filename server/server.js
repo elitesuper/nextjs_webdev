@@ -4,6 +4,8 @@ const http = require('http');
 const cors = require('cors');
 const {connectToDatabase} = require('../lib/connectToDatabase');
 const { clientele } = require('pos/lexicon');
+const { ObjectId } = require('mongodb');
+
 
 const app = express();
 app.use(cors())
@@ -39,6 +41,18 @@ io.on('connection', (socket) => {
       ],}).toArray();
     socket.emit('messages', messages);
   });
+
+  socket.on('readMessage', async (message) => {
+    
+    const messageId = new ObjectId(message._id);
+
+    const updateMessage = await(await messagesCollection()).updateOne(
+      { _id: messageId },
+      { $set: { read: true } }
+    )
+    
+    console.log(updateMessage)
+  })
 
   socket.on('sendMessage', async (message) => {
     await(await messagesCollection()).insertOne(message);

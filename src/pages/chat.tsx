@@ -71,7 +71,8 @@ export default function Chat() {
       content: inputValue,
       to:email,
       date: timestampToFormattedDate(Date.now()),
-      time: formatTime()
+      time: formatTime(),
+      read: false
     }
     if (!message) return;
     if (inputValue.trim() == '') return;
@@ -79,7 +80,7 @@ export default function Chat() {
     const fetchData = async() => { 
       const responseData = {message:message.content}
       try{
-        const response = await fetch('/api/message/message', {
+        await fetch('/api/message/message', {
           method: 'POST',
           body: JSON.stringify(responseData),
           headers: {
@@ -134,6 +135,16 @@ export default function Chat() {
   
   useEffect(() => {
     // ...socket.io setup and message handling...
+
+    const unreadMessages = messages.filter((item) => (item?.to === session?.user?.email && !item?.read));
+
+    console.log("unreadMessages", unreadMessages);
+
+    if(unreadMessages.length > 0){
+      unreadMessages.map((item)=>{
+        socket.emit('readMessage', {...item, read:true})
+      })
+    }
 
     // Scroll to the bottom when new messages arrive
     const chatWindow = chatWindowRef.current;
