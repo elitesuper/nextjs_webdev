@@ -23,11 +23,11 @@ import {language} from "../jotai"
 import languagejson from "../language.json"
 import { useAtom } from 'jotai'
 
-import io from "socket.io-client";
 
 export default function Messages() {
   const [lang, setLanguage] = useAtom(language)
   const [users, setUsers] = React.useState<any>([])
+  const [unReads, setUnReads] = React.useState<Array<any>>([]);
   const list = [
     {
       name: 'Nickname 1',
@@ -96,6 +96,30 @@ export default function Messages() {
     },
   ]
 
+  
+  React.useEffect(() =>{
+    const getUnreadMessage = async () => {
+      const response = await fetch('/api/message/getUnreadMessages',{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+
+      let data = await response.json()
+
+      console.log('unreadmessages', data)
+
+
+      if(data.data.count > 0){
+        setUnReads(data.data.messages)
+      }
+    }
+
+    getUnreadMessage()
+  })
+
+
   React.useEffect(() => {
     const getUser = async () => {
       const response = await fetch('/api/user/user', {
@@ -159,7 +183,7 @@ export default function Messages() {
                     borderRadius: 2,
                     padding: 0,
                   }}>
-                  <Badge badgeContent={0} color="error">
+                  <Badge badgeContent={unReads.filter((item)=>item.author == user.email).length} color="error">
                     <Image
                       src={(user.picpath == "" || user.picpath == undefined) ? `/images/${(user.sex != null ? user.sex : 'male')}.png` : `/api/view?name=${user.picpath}`}
                       alt={(user.sex != null ? user.sex : '')}
