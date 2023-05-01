@@ -59,6 +59,11 @@ export default function Home() {
     router.push('/profile')
   }
 
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/signin'); // Redirect to login page
+  }
+  
 
   useEffect(() => {
     // Todo
@@ -186,7 +191,7 @@ export default function Home() {
                   </MenuItem>
                 )
             )}
-            <MenuItem dense onClick={() => signOut()}>
+            <MenuItem dense onClick={() => handleSignOut()}>
               {languagejson[lang].signOut}
             </MenuItem>
           </Menu>

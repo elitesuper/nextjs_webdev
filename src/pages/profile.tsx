@@ -32,11 +32,14 @@ const { data: MenuDatas } = MenuData
 
 
 import ImageUploader from '../components/elements/ImageUploader'
+import { useRouter } from 'next/router'
 
 export default function Profile() {
   const [lang, setLanguage] = useAtom(language)
   const energy = 54
   const opportunity = 21
+
+  const router = useRouter()
 
 
   const { setSnack } = React.useContext(SnackbarContext)
@@ -101,6 +104,10 @@ export default function Profile() {
   }
 
 
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/signin'); // Redirect to login page
+  }
   
  function getpic (){
   loadpic()
@@ -217,7 +224,7 @@ async function loadpic () {
                   </MenuItem>
                 )
             )}
-            <MenuItem dense onClick={() => signOut()}>
+            <MenuItem dense onClick={() => handleSignOut()}>
               Logout
             </MenuItem>
           </Menu>
