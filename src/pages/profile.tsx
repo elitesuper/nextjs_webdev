@@ -106,8 +106,9 @@ export default function Profile() {
 
   const handleSignOut = async () => {
     await signOut();
-    router.push('/signin'); // Redirect to login page
-  }
+    const router = useRouter();
+    router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/signin`);
+  };
   
  function getpic (){
   loadpic()
