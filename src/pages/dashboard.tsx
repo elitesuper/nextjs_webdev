@@ -62,7 +62,7 @@ export default function Home() {
   const handleSignOut = async () => {
     await signOut();
     const router = useRouter();
-    router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/signin`);
+    router.replace(`${process.env.NEXT_PUBLIC_BASE_URL}/signin`);
   };
   
 
