@@ -105,11 +105,15 @@ export default function Profile() {
 
 
   const handleSignOut = async () => {
-    await signOut();
+    try {
+      await signOut({ callbackUrl: process.env.NEXT_PUBLIC_BASE_URL + '/signin' });
+    } catch (error) {
+      console.error('There was an error signing out:', error);
+    }
+    
     const router = useRouter();
     router.replace(`${process.env.NEXT_PUBLIC_BASE_URL}/signin`);
   };
-  
  function getpic (){
   loadpic()
 }
