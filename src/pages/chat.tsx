@@ -68,6 +68,7 @@ export default function Chat() {
     e.preventDefault();
     const message = {
       author: session?.user.email,
+      type:'text',
       content: inputValue,
       to:email,
       date: timestampToFormattedDate(Date.now()),
@@ -132,7 +133,41 @@ export default function Chat() {
     }
   }
 
+  async function asyncupload(file:any) {
+    const data = await file.arrayBuffer();
+    await fetch('/api/upload', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({
+        name: file.name,
+        data: Array.from(new Uint8Array(data)),
+      }),
+    }).then(response=>response.json()).then(data=>{
+
+      const message = {
+        author: session?.user.email,
+        type:'image',
+        content: data.data,
+        to:email,
+        date: timestampToFormattedDate(Date.now()),
+        time: formatTime(),
+        read: false
+      }
+      socket.emit('sendMessage', message);
+      
+    }).catch(err=>{
+      console.error('Failed to upload file');
+    })
+  }
   
+  const messageElement = (type, content, time) => {
+    return <div>
+      {type == "image" ? <Image src={`/api/view?name=${content}`} alt={content} width={160} height={90} /> :  <Typography>{content}</Typography>}
+      <Typography sx={{fontSize:'10px'}}>{time}</Typography>
+    </div>
+  }
   useEffect(() => {
     // ...socket.io setup and message handling...
 
@@ -204,16 +239,16 @@ export default function Chat() {
                 alignSelf={'start'}
                 bgcolor="success.main"
                 sx={{ borderRadius: 2, p: 1, px: 2, m: 1, maxWidth: '80%' }}>
-                <Typography>{message.content}</Typography>
-                <Typography sx={{fontSize:'10px'}}>{message.time}</Typography>
+                {/* <Typography>{message.content}</Typography>
+                <Typography sx={{fontSize:'10px'}}>{message.time}</Typography> */}
+                {messageElement(message?.type, message?.content, message?.time)}
               </Box> :
               <Box
                 alignSelf={'end'}
                 textAlign="right"
                 bgcolor="info.main"
                 sx={{ borderRadius: 2, p: 1, px: 2, m: 1, maxWidth: '80%' }}>
-                <Typography>{message.content}</Typography>
-                <Typography sx={{fontSize:'10px'}}>{message.time}</Typography>
+                {messageElement(message?.type, message?.content, message?.time)}
               </Box>
               }
               
@@ -258,7 +293,16 @@ export default function Chat() {
               height: 40,
               ml: 1,
             }}>
-            <AttachFileIcon />
+            <label htmlFor="icon-button-file">
+              <AttachFileIcon />
+            </label>
+            <input
+              accept=".jpg,.jpeg,.png,.pdf"
+              id="icon-button-file"
+              type="file"
+              onChange={(e) => asyncupload(e.target.files[0])}
+              style={{ display: 'none' }}
+            />
           </IconButton>
         </Box>
       </Box>
