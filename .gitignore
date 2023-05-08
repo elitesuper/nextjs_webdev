@@ -133,3 +133,4 @@ dist
 /package-lock.json
 /.env.development
 /.env.production
+/uploads
