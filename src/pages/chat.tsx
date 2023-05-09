@@ -157,6 +157,18 @@ export default function Chat() {
       return messages.date
     }
   }
+  const handleClipboardPaste = async (event) => {
+    const items = event.clipboardData?.items;
+    if (!items) return;
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        const blob = items[i].getAsFile();
+        if (!blob) return;
+        await asyncupload(blob);
+      }
+    }
+  };
 
   async function asyncupload(file:any) {
     const data = await file.arrayBuffer();
@@ -202,7 +214,7 @@ export default function Chat() {
   const messageElement = (type, content, time, filetype) => {
     return <div>
       {type == "media" ? 
-        (filetype == "image" ? <Image src={`/api/view?name=${content}`} alt={content} width={160} height={90} onClick={() => handleClick(content, filetype)}/>
+        (filetype == "image" ? <ChatImage content={content} filetype={filetype} handleClick={handleClick} />
           : <video src={`/api/view?name=${content}`} width={160} height={90} onClick={() => handleClick(content, filetype)}></video>)
         :<Typography variant="body1" >{content}</Typography>
       }  
@@ -308,6 +320,7 @@ export default function Chat() {
             sx={{ flexGrow: 1 }} 
             variant="standard" 
             onChange={(e) => setInputValue(e.target.value)}
+            onPaste={handleClipboardPaste}
             onKeyPress={(e) => {
               if(e.key === 'Enter'){
                 sendMessage(e)
@@ -381,6 +394,40 @@ export function MediaViewer( {open, handleClose, content}: MediaViewerProps ){
     </>
   )
 }
+
+export function ChatImage ({content, filetype, handleClick} : any){
+  const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number }>({
+    width: 0,
+    height: 0,
+  });
+  
+  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const img = event.currentTarget;
+    
+    const tempImage = document.createElement("img") as HTMLImageElement;
+    tempImage.crossOrigin = 'anonymous';
+    
+    tempImage.onload = () => {
+      setImageDimensions({ width: tempImage.width * 10, height: tempImage.height * 10 });
+      URL.revokeObjectURL(img.src);  // Release memory
+    };
+  
+    // Assign the src after the onload is attached
+    tempImage.src = img.src;
+  };
+  
+  return (<div>
+      <Image
+        src={`/api/view?name=${content}`}
+        alt={content}
+        width={imageDimensions.width}
+        height={imageDimensions.height}
+        onClick={() => handleClick(content, filetype)}
+        onLoad={handleImageLoad}
+    />
+  </div>)
+}
+
 
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const session = await getSession({
