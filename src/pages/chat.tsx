@@ -135,31 +135,68 @@ export default function Chat() {
 
   async function asyncupload(file:any) {
     const data = await file.arrayBuffer();
-    await fetch('/api/upload', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json',
-      },
-      body: JSON.stringify({
-        name: file.name,
-        data: Array.from(new Uint8Array(data)),
-      }),
-    }).then(response=>response.json()).then(data=>{
+    // await fetch('/api/upload', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type' : 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     name: file.name,
+    //     type: 'chat',
+    //     data: Array.from(new Uint8Array(data)),
+    //   }),
+    // }).then(response=>response.json()).then(data=>{
 
-      const message = {
-        author: session?.user.email,
-        type:'image',
-        content: data.data,
-        to:email,
-        date: timestampToFormattedDate(Date.now()),
-        time: formatTime(),
-        read: false
-      }
-      socket.emit('sendMessage', message);
+    //   const message = {
+    //     author: session?.user.email,
+    //     type:'image',
+    //     content: data.data,
+    //     to:email,
+    //     date: timestampToFormattedDate(Date.now()),
+    //     time: formatTime(),
+    //     read: false
+    //   }
+    //   socket.emit('sendMessage', message);
       
-    }).catch(err=>{
-      console.error('Failed to upload file');
-    })
+    // }).catch(err=>{
+    //   console.error('Failed to upload file');
+    // })
+    const xhr = new XMLHttpRequest(); 
+    xhr.upload.onprogress = (event) => {
+      const percentCompleted = Math.round((event.loaded * 100) / event.total);
+      console.log('Upload Progress: ' + percentCompleted + '%');
+    };
+  
+    xhr.open('POST', '/api/upload');
+  
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+  
+        const response = JSON.parse(xhr.response) 
+
+        const message = {
+          author: session?.user.email,
+          type:'image',
+          content: response.data,
+          to:email,
+          date: timestampToFormattedDate(Date.now()),
+          time: formatTime(),
+          read: false
+        }
+        socket.emit('sendMessage', message);
+        
+      } else {
+        console.error('Failed to upload file');
+      }
+    };
+    
+    xhr.send(JSON.stringify({
+      name: file.name,
+      type: 'chat',
+      data: Array.from(new Uint8Array(data)),
+    }));
   }
   
   const messageElement = (type, content, time) => {

@@ -39,13 +39,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   let message = req.body.message
 
-  console.log("words=", message)
   let words = new pos.Lexer().lex(message)
-  console.log("words=", words)
   var tagger = new pos.Tagger()
-  console.log("tagger=", tagger)
   var taggedWords = tagger.tag(words)
-  console.log("tagger=", taggedWords)
   let messageObj: any = {}
   
   for (let i in taggedWords) {

@@ -36,7 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       req,
     })
   
-    const { name, data } = req.body;
+    const { name, type, data } = req.body;
 
     const picpath = `${uuidv4()}${path.extname(name)}`;
     const filepath = `./uploads/${picpath}`;
@@ -49,7 +49,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         console.error(err);
         res.status(500).send('Error uploading file');
       } else {
-        prepare(picpath, session)
+        prepare(picpath, session, type)
         res.status(200).send({data:picpath});
       }
     });
@@ -60,8 +60,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 export default handler
 
-function prepare (picpath, session) {
-  savetodb(picpath, session);
+function prepare (picpath, session, type) {
+  if(type == 'profile'){
+    savetodb(picpath, session);
+  }
 }
 async function savetodb (picpath, session) {
   

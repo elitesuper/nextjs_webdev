@@ -171,6 +171,7 @@ export default function ImageUploader() {
       },
       body: JSON.stringify({
         name: file.name,
+        type: 'profile',
         data: Array.from(new Uint8Array(data)),
       }),
     }).then(response=>response.json()).then(data=>{
