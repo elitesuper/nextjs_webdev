@@ -371,7 +371,7 @@ export function MediaViewer( {open, handleClose, content}: MediaViewerProps ){
           <Button onClick={handleClose} color="primary">
             Close
           </Button>
-          <a href={`/api/view?name=${content}`} download>
+          <a href={`/api/view?name=${content.content}`} download>
           <Button color="primary">
             Download
           </Button>
