@@ -12,7 +12,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  user-select: none;
+  user-select: auto;
 }
 
 .pageWrapper {
@@ -82,7 +82,7 @@ p {
     border-radius: 7px;
     border: 3px solid #eee;
     transition: all .2s ease;
-    user-select: none;
+    user-select: auto;
 
     &:hover {
       border-color: $theme;

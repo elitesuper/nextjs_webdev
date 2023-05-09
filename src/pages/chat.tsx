@@ -6,7 +6,7 @@ import {
   Mail as MailIcon,
 } from '@mui/icons-material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { IconButton, Stack, TextField, Typography } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, TextField, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { NextApiRequest } from 'next'
 import { getSession, useSession } from 'next-auth/react'
@@ -29,6 +29,17 @@ type Message = {
 type Query = {
   email: string;
 };
+type MediaType = {
+  content: string
+  type: string
+}
+
+interface MediaViewerProps {
+  open: boolean;
+  handleClose: () => void;
+  content: MediaType;
+}
+
 
 export default function Chat() {
   const router = useRouter()
@@ -43,6 +54,20 @@ export default function Chat() {
   const [inputValue, setInputValue] = useState<string>("");
   const [messages, setMessages] = useState<Array<Message>>([]);
   const chatWindowRef = useRef<HTMLDivElement>(null);
+
+  const [open, setOpen] = useState(false);
+  const [selectedContent, setSelectedContent] = useState({content:"", type:""});
+
+  const handleClick = (content, type) => {
+
+    setSelectedContent({content:content, type:type});
+
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     socket = io(process.env.NEXT_PUBLIC_CHAT_URI);
@@ -135,32 +160,6 @@ export default function Chat() {
 
   async function asyncupload(file:any) {
     const data = await file.arrayBuffer();
-    // await fetch('/api/upload', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type' : 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     name: file.name,
-    //     type: 'chat',
-    //     data: Array.from(new Uint8Array(data)),
-    //   }),
-    // }).then(response=>response.json()).then(data=>{
-
-    //   const message = {
-    //     author: session?.user.email,
-    //     type:'image',
-    //     content: data.data,
-    //     to:email,
-    //     date: timestampToFormattedDate(Date.now()),
-    //     time: formatTime(),
-    //     read: false
-    //   }
-    //   socket.emit('sendMessage', message);
-      
-    // }).catch(err=>{
-    //   console.error('Failed to upload file');
-    // })
     const xhr = new XMLHttpRequest(); 
     xhr.upload.onprogress = (event) => {
       const percentCompleted = Math.round((event.loaded * 100) / event.total);
@@ -178,7 +177,8 @@ export default function Chat() {
 
         const message = {
           author: session?.user.email,
-          type:'image',
+          type:'media',
+          filetype: response.type,
           content: response.data,
           to:email,
           date: timestampToFormattedDate(Date.now()),
@@ -199,9 +199,13 @@ export default function Chat() {
     }));
   }
   
-  const messageElement = (type, content, time) => {
+  const messageElement = (type, content, time, filetype) => {
     return <div>
-      {type == "image" ? <Image src={`/api/view?name=${content}`} alt={content} width={160} height={90} /> :  <Typography>{content}</Typography>}
+      {type == "media" ? 
+        (filetype == "image" ? <Image src={`/api/view?name=${content}`} alt={content} width={160} height={90} onClick={() => handleClick(content, filetype)}/>
+          : <video src={`/api/view?name=${content}`} width={160} height={90} onClick={() => handleClick(content, filetype)}></video>)
+        :<Typography variant="body1" >{content}</Typography>
+      }  
       <Typography sx={{fontSize:'10px'}}>{time}</Typography>
     </div>
   }
@@ -278,14 +282,14 @@ export default function Chat() {
                 sx={{ borderRadius: 2, p: 1, px: 2, m: 1, maxWidth: '80%' }}>
                 {/* <Typography>{message.content}</Typography>
                 <Typography sx={{fontSize:'10px'}}>{message.time}</Typography> */}
-                {messageElement(message?.type, message?.content, message?.time)}
+                {messageElement(message?.type, message?.content, message?.time, message.filetype)}
               </Box> :
               <Box
                 alignSelf={'end'}
                 textAlign="right"
                 bgcolor="info.main"
                 sx={{ borderRadius: 2, p: 1, px: 2, m: 1, maxWidth: '80%' }}>
-                {messageElement(message?.type, message?.content, message?.time)}
+                {messageElement(message?.type, message?.content, message?.time, message.filetype)}
               </Box>
               }
               
@@ -334,7 +338,7 @@ export default function Chat() {
               <AttachFileIcon />
             </label>
             <input
-              accept=".jpg,.jpeg,.png,.pdf"
+              accept="*.*"
               id="icon-button-file"
               type="file"
               onChange={(e) => asyncupload(e.target.files[0])}
@@ -343,7 +347,38 @@ export default function Chat() {
           </IconButton>
         </Box>
       </Box>
+      <MediaViewer
+        open={open}
+        handleClose={handleClose}
+        content={selectedContent}
+      />
     </FullLayout>
+  )
+}
+
+
+export function MediaViewer( {open, handleClose, content}: MediaViewerProps ){
+  return (
+    <>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>
+          Media Viewer
+        </DialogTitle>
+        <DialogContent>
+          {content.type == 'image' ? <img src={`/api/view?name=${content.content}`} alt={content.content} width="100%"/>: <video src={`/api/view?name=${content.content}`} width="100%" controls/>}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+          <a href={`/api/view?name=${content}`} download>
+          <Button color="primary">
+            Download
+          </Button>
+          </a>
+        </DialogActions>
+      </Dialog>
+    </>
   )
 }
 

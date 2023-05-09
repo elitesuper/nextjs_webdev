@@ -22,15 +22,13 @@ import path from 'path';
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: '10mb'
+      sizeLimit: '200mb'
     },
   },
 };
 
-
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-
 
     const session = await getSession({
       req,
@@ -49,18 +47,37 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         console.error(err);
         res.status(500).send('Error uploading file');
       } else {
-        prepare(picpath, session, type)
-        res.status(200).send({data:picpath});
+        const fileExt = path.extname(picpath); // extracts the file extension from the generated filename
+        let fileType;
+        switch (fileExt) { // checks the extension against known image and video formats
+          case '.jpg':
+          case '.jpeg':
+          case '.png':
+          case '.gif':
+            fileType = 'image';
+            break;
+          case '.mp4':
+          case '.mov':
+          case '.avi':
+            fileType = 'video';
+            break;
+          default:
+            fileType = 'other';
+            break;
+        }
+
+        prepare(picpath, session, type, fileType)
+        res.status(200).send({data:picpath, type:fileType});
       }
     });
   } else {
     res.status(405).send('Method not allowed');
   }
-  
 }
+
 export default handler
 
-function prepare (picpath, session, type) {
+function prepare (picpath, session, type, fileType) {
   if(type == 'profile'){
     savetodb(picpath, session);
   }
