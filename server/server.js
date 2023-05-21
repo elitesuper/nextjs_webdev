@@ -43,9 +43,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('readMessage', async (message) => {
-    
     const messageId = new ObjectId(message._id);
-
     const updateMessage = await(await messagesCollection()).updateOne(
       { _id: messageId },
       { $set: { read: true } }
@@ -57,6 +55,19 @@ io.on('connection', (socket) => {
   socket.on('sendMessage', async (message) => {
     await(await messagesCollection()).insertOne(message);
     io.emit('newMessage', message);
+  });
+
+  socket.on('callUser', async (data) => {
+    console.log(`Calling user: ${data.to}`);
+    // socket.to(data.to).emit('callUser', { signal: data.signal, from: socket.id });
+    io.emit('callUser', { signal: data.signal, from: data.from, to: data.to });
+
+  });
+
+  socket.on('acceptCall', async (data) => {
+    console.log(`Accept call from: ${data.to}`);
+    // socket.to(data.to).emit('acceptCall', { signal: data.signal });
+    io.emit('acceptCall', { signal: data.signal, to: data.to });
   });
 
 });

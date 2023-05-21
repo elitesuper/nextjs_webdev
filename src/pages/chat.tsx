@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import React, {Fragment, useState, useEffect, useRef } from "react";
 import FullLayout from '@layouts/FullLayout/FullLayout'
 import {
   AttachFile as AttachFileIcon,
-  CoPresentOutlined,
+  Close,
   Mail as MailIcon,
+  Phone,
+  PhoneDisabled,
 } from '@mui/icons-material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, TextField, Typography } from '@mui/material'
@@ -12,12 +14,11 @@ import { NextApiRequest } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { Fragment } from 'react'
-import {language} from "../jotai"
-import languagejson from "../language.json"
-import { useAtom } from 'jotai'
 import io from "socket.io-client";
 import { formatTime, timestampToFormattedDate } from "@lib/utils";
+import { useWindowSize } from "@react-hook/window-size";
+import Peer from 'simple-peer';
+import { v4 as uuidv4 } from 'uuid';
 
 let socket:any;
 
@@ -26,9 +27,6 @@ type Message = {
   message: string;
 };
 
-type Query = {
-  email: string;
-};
 type MediaType = {
   content: string
   type: string
@@ -41,15 +39,105 @@ interface MediaViewerProps {
 }
 
 
+const CallButton = ({ onClick, isCalling }) => (
+  <IconButton sx={{bgcolor: 'primary.main', borderRadius: '50%', width: 40, height: 40, ml: 2}} onClick={onClick}>
+    {isCalling ? <PhoneDisabled /> : <Phone />}
+  </IconButton>
+);
+
+const VideoCallWindow = ({ localStream, remoteStream, videoWindowClosed }) => {
+  const localVideoRef = useRef<HTMLVideoElement>(null);
+  const remoteVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (localStream && localVideoRef.current) {
+      localVideoRef.current.srcObject = localStream;
+    }
+  }, [localStream]);
+
+  useEffect(() => {
+    if (remoteStream && remoteVideoRef.current) {
+      remoteVideoRef.current.srcObject = remoteStream;
+    }
+  }, [remoteStream]);
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        zIndex: 1000,
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <video
+        ref={localVideoRef}
+        muted
+        autoPlay
+        playsInline
+        style={{
+          width: '180px',
+          height: '135px',
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          objectFit: 'cover',
+          borderRadius: '4px',
+          border: '2px solid white',
+        }}></video>
+      <video
+        ref={remoteVideoRef}
+        autoPlay
+        playsInline
+        style={{
+          width: '640px',
+          height: '480px',
+          objectFit: 'cover',
+          borderRadius: '4px',
+          border: '2px solid white',
+        }}></video>
+      <Close
+        onClick={videoWindowClosed}
+        style={{
+          position: 'absolute',
+          cursor: 'pointer',
+          top: '10px',
+          right: '10px',
+          color: 'white',
+          fontSize: '32px',
+        }}
+      />
+    </div>
+  );
+};
+
+const ICE_SERVERS = [
+  { urls: 'stun:stun.l.google.com:19302' },
+  // Add more STUN and TURN servers here
+];
+const AUDIO_CONSTRAINTS = { audio: true, video: false };
+const VIDEO_CONSTRAINTS = {
+  audio: false,
+  video: {
+    deviceId: {
+      exact: 'a3537551792d9bbb19b8de90745903edf56fecc1f175b3a988b7b537421469eb'
+    }
+  }
+};
+
+
+
 export default function Chat() {
   const router = useRouter()
   const { email } = router.query
 
-  const [lang, setLanguage] = useAtom(language)
-
   const { data: session } = useSession()
 
-  const [username, setUsername] = useState("");
   const [pic, setPic] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
   const [messages, setMessages] = useState<Array<Message>>([]);
@@ -58,10 +146,13 @@ export default function Chat() {
   const [open, setOpen] = useState(false);
   const [selectedContent, setSelectedContent] = useState({content:"", type:""});
 
+  const [, windowHeight] = useWindowSize();
+  const [isCalling, setIsCalling] = useState(false);
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+
   const handleClick = (content, type) => {
-
     setSelectedContent({content:content, type:type});
-
     setOpen(true);
   };
 
@@ -81,12 +172,39 @@ export default function Chat() {
   }, []);
 
   useEffect(() => {
+
     socket.on('messages', (msgs:any) => {
       setMessages(msgs);
     });
+
     socket.on('newMessage', (msg:any) => {
       setMessages((prevState) => [...prevState, msg]);
     });
+
+    socket.on('callUser', (data:any) => {
+      // console.log("+++++++++++++++++++++++++++++++++++++++++++++++++", data.from)
+      console.log(data)
+      if (data.from == email){
+        if (window.confirm(`${email} is calling, do you want to answer?`)) {
+          answerCall(data);
+        }
+      }
+    });
+
+    socket.on('acceptCall', ({ signal }) => {
+      if (localStream) {
+        const peer = new Peer({
+          initiator: true,
+          trickle: false,
+          stream: localStream,
+          config: { iceServers: ICE_SERVERS },
+        });
+
+        peer.signal(signal);
+        setupPeer(peer);
+      }
+    });
+
   }, []);
 
   const sendMessage = (e:any) => {
@@ -239,6 +357,121 @@ export default function Chat() {
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }, [messages]);
 
+
+  const initiateCall = () => {
+    setIsCalling(true);
+
+    navigator.mediaDevices.enumerateDevices()
+    .then(devices => {
+      console.log(devices)
+      const audioInputDevice = devices.find(device => device.kind === 'audioinput');
+      const videoInputDevice = devices.find(device => device.kind === 'videoinput');
+
+      // if (audioInputDevice) {
+      //   VIDEO_CONSTRAINTS.audio = {
+      //     deviceId: {
+      //       exact: audioInputDevice.deviceId
+      //     }
+      //   };
+      // }
+
+      if (videoInputDevice) {
+        VIDEO_CONSTRAINTS.video = {
+          deviceId: {
+            exact: videoInputDevice.deviceId
+          }
+        };
+      }
+    })
+    .catch(error => {
+      console.error('Error enumerating devices', error);
+    });
+
+    console.log(VIDEO_CONSTRAINTS)
+
+    navigator.mediaDevices.getUserMedia(VIDEO_CONSTRAINTS).then((stream) => {
+      setLocalStream(stream);
+      const peer = new Peer({ initiator: true, trickle: false, stream, config: { iceServers: ICE_SERVERS } });
+
+      connect(peer, email);
+    }).catch((error) => {
+      console.error("Error accessing media devices.", error)
+    });
+  };
+
+  const answerCall = (data:any) => {
+    navigator.mediaDevices.enumerateDevices()
+    .then(devices => {
+      console.log(devices)
+      const audioInputDevice = devices.find(device => device.kind === 'audioinput');
+      const videoInputDevice = devices.find(device => device.kind === 'videoinput');
+
+      if (videoInputDevice) {
+        VIDEO_CONSTRAINTS.video = {
+          deviceId: {
+            exact: videoInputDevice.deviceId
+          }
+        };
+      }
+    })
+    .catch(error => {
+      console.error('Error enumerating devices', error);
+    });
+
+    navigator.mediaDevices.getUserMedia(VIDEO_CONSTRAINTS).then((stream) => {
+      setLocalStream(stream);
+      const peer = new Peer({ initiator: false, trickle: false, stream, config: { iceServers: ICE_SERVERS } });
+
+      peer.on('signal', (signalData) => {
+        socket.emit('acceptCall', { signal: signalData, to: data.from });
+      });
+
+      peer.signal(data.signal);
+      setupPeer(peer);
+    });
+  };
+
+
+  const connect = (peer, to) =>{
+    setIsCalling(true);
+    const from = session?.user?.email
+    peer.on('signal', (signalData) => {
+      console.log("=======================================");
+      socket.emit('callUser', { signal: signalData, to, from });
+    });
+
+    setupPeer(peer);
+  };
+
+  const setupPeer = (peer) => {
+    peer.on('stream', (stream: MediaStream) => {
+      setRemoteStream(stream);
+    });
+
+    peer.on('close', () => {
+      setRemoteStream(null);
+      localStream.getTracks().forEach((track) => track.stop());
+      setLocalStream(null);
+      setIsCalling(false);
+
+      if (peer.destroyed) {
+        const id = uuidv4();
+        const newPeer = new Peer({ id, initiator: peer.initiator, config: { iceServers: ICE_SERVERS } });
+        newPeer.signal(peer.signal);
+        connect(newPeer, email);
+      }
+    });
+  };
+
+  const handleCloseVideoCall = () => {
+    if (localStream) {
+      localStream.getTracks().forEach((track) => track.stop());
+    }
+    setLocalStream(null);
+    setRemoteStream(null);
+    setIsCalling(false);
+  };
+
   return (
     <FullLayout title="Chat" appbar={false}>
       <Box
@@ -358,7 +591,15 @@ export default function Chat() {
               style={{ display: 'none' }}
             />
           </IconButton>
+          <CallButton onClick={initiateCall} isCalling={isCalling} />
         </Box>
+        {isCalling && (
+          <VideoCallWindow
+            localStream={localStream}
+            remoteStream={remoteStream}
+            videoWindowClosed={handleCloseVideoCall}
+          />
+        )}
       </Box>
       <MediaViewer
         open={open}
