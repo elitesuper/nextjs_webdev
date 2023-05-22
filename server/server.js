@@ -1,6 +1,6 @@
 const express = require('express');
 const { Server } = require('socket.io');
-const http = require('http');
+const https = require('https');
 const cors = require('cors');
 const {connectToDatabase} = require('../lib/connectToDatabase');
 const { clientele } = require('pos/lexicon');
