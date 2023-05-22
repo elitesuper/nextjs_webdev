@@ -11,7 +11,7 @@ const { ObjectId } = require('mongodb');
 const app = express();
 app.use(cors())
 const server = https.createServer({
-  key: fs.readFileSync('/etc/letsencrypt/live/reson.app/key.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/reson.app/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/reson.app/cert.pem'),
 }, app);
 const io = new Server(server, {
