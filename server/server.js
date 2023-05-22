@@ -9,7 +9,10 @@ const { ObjectId } = require('mongodb');
 
 const app = express();
 app.use(cors())
-const server = http.createServer(app);
+const server = https.createServer({
+  key: fs.readFileSync('/etc/letsencrypt/live/reson.app/key.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/reson.app/cert.pem'),
+}, app);
 const io = new Server(server, {
   cors: {
     origin: "https://reson.app", // Replace this with your Next.js app URL
