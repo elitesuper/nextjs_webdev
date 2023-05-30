@@ -9,21 +9,23 @@ const { ObjectId } = require('mongodb');
 
 
 const app = express();
-app.use(cors())
+app.use(cors());
+
 const server = https.createServer({
-  cert: fs.readFileSync('/etc/letsencrypt/live/reson.app/cert.pem'),
-  key: fs.readFileSync('/etc/letsencrypt/live/reson.app/privkey.pem'),
+	cert: fs.readFileSync('/etc/letsencrypt/live/reson.app/cert.pem'),
+	key: fs.readFileSync('/etc/letsencrypt/live/reson.app/privkey.pem'),
 }, app);
+
 const io = new Server(server, {
-  cors: {
-    origin: "https://reson.app", // Replace this with your Next.js app URL
-    methods: ["GET", "POST"],
-  },
+	cors: {
+    	origin: "https://reson.app", // Replace this with your Next.js app URL
+    	methods: ["GET", "POST"],
+  	},
 });
 
 let client;
 (async () => {
-  client = await connectToDatabase();
+	client = await connectToDatabase();
 })();
 
 const messagesCollection = () => client.db().collection('messages');

@@ -10,7 +10,7 @@
   "scripts": {
     "dev:next": "next dev",
     "build": "next build",
-    "dev:chat": "sudo node server/server.js",
+    "dev:chat": "node server/server.js",
     "dev": "concurrently \"npm run dev:chat\" \"npm run dev:next\"",
     "start": "next start",
     "lint": "next lint"
