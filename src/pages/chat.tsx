@@ -74,8 +74,6 @@ export default function Chat() {
     useEffect(() => {
         socket = io(process.env.NEXT_PUBLIC_CHAT_URI);
         socket.on('connect', () => {
-            console.log('Connected to WebSocket server');
-
             // Fetch existing messages from the server
             socket.emit('getMessages', {to:email, author:session?.user.email});
         });
@@ -173,7 +171,6 @@ export default function Chat() {
         const xhr = new XMLHttpRequest(); 
         xhr.upload.onprogress = (event) => {
             const percentCompleted = Math.round((event.loaded * 100) / event.total);
-            console.log('Upload Progress: ' + percentCompleted + '%');
         };
   
         xhr.open('POST', '/api/upload');
@@ -216,7 +213,6 @@ export default function Chat() {
     useEffect(() => {
         // ...socket.io setup and message handling...
         const unreadMessages = messages.filter((item) => (item?.to === session?.user?.email && !item?.read));
-        console.log("unreadMessages", unreadMessages);
 
         if (unreadMessages.length > 0) {
             unreadMessages.map((item)=>{
@@ -249,8 +245,6 @@ export default function Chat() {
             console.error('Error enumerating devices', error);
         });
         
-        console.log(VIDEO_CONSTRAINTS);
-        
         navigator.mediaDevices.getUserMedia(VIDEO_CONSTRAINTS).then((stream) => {
             setLocalStream(stream);
             const peer = new Peer({ initiator: true, trickle: false, stream, config: { iceServers: ICE_SERVERS } });
@@ -264,7 +258,6 @@ export default function Chat() {
     const answerCall = (data:any) => {
         navigator.mediaDevices.enumerateDevices()
             .then(devices => {
-                console.log(devices);
                 const audioInputDevice = devices.find(device => device.kind === 'audioinput');
                 const videoInputDevice = devices.find(device => device.kind === 'videoinput');
 

@@ -31,11 +31,7 @@ let client;
 const messagesCollection = () => client.db().collection('messages');
 
 io.on('connection', (socket) => {
-
-  console.log('User connected!');
-
   socket.on('disconnect', () => {
-    console.log('User disconnected!');
   });
 
   socket.on('getMessages', async (message) => {
@@ -54,8 +50,6 @@ io.on('connection', (socket) => {
       { _id: messageId },
       { $set: { read: true } }
     )
-    
-    console.log(updateMessage)
   })
 
   socket.on('sendMessage', async (message) => {
@@ -64,14 +58,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('callUser', async (data) => {
-    console.log(`Calling user: ${data.to}`);
     // socket.to(data.to).emit('callUser', { signal: data.signal, from: socket.id });
     io.emit('callUser', { signal: data.signal, from: data.from, to: data.to });
 
   });
 
   socket.on('acceptCall', async (data) => {
-    console.log(`Accept call from: ${data.to}`);
     // socket.to(data.to).emit('acceptCall', { signal: data.signal });
     io.emit('acceptCall', { signal: data.signal, to: data.to });
   });
@@ -79,5 +71,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(4000, () => {
-  console.log('Server listening on port 4000');
+  
 });
