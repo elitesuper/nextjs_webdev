@@ -234,6 +234,7 @@ export default function Chat() {
         setIsCalling(true);
         navigator.mediaDevices.enumerateDevices()
         .then(devices => {
+            console.log('11111111111111111111111111');
             console.log(devices)
             const audioInputDevice = devices.find(device => device.kind === 'audioinput');
             const videoInputDevice = devices.find(device => device.kind === 'videoinput');
