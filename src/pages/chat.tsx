@@ -234,6 +234,8 @@ export default function Chat() {
             console.log(devices)
             const audioInputDevice = devices.find(device => device.kind === 'audioinput');
             const videoInputDevice = devices.find(device => device.kind === 'videoinput');
+            console.log("22222222222222222222222222");
+            
             if (videoInputDevice) {
                 VIDEO_CONSTRAINTS.video = {
                     deviceId: {
