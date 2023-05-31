@@ -233,29 +233,29 @@ export default function Chat() {
     const initiateCall = () => {
         setIsCalling(true);
         navigator.mediaDevices.enumerateDevices()
-            .then(devices => {
-                console.log(devices)
-                const audioInputDevice = devices.find(device => device.kind === 'audioinput');
-                const videoInputDevice = devices.find(device => device.kind === 'videoinput');
-                if (videoInputDevice) {
-                    VIDEO_CONSTRAINTS.video = {
-                        deviceId: {
-                            exact: videoInputDevice.deviceId
-                        }
-                    };
-                }
-            }).catch(error => {
-                console.error('Error enumerating devices', error);
-            });
-            
-            console.log(VIDEO_CONSTRAINTS);
-            
-            navigator.mediaDevices.getUserMedia(VIDEO_CONSTRAINTS).then((stream) => {
-                setLocalStream(stream);
-                const peer = new Peer({ initiator: true, trickle: false, stream, config: { iceServers: ICE_SERVERS } });
+        .then(devices => {
+            console.log(devices)
+            const audioInputDevice = devices.find(device => device.kind === 'audioinput');
+            const videoInputDevice = devices.find(device => device.kind === 'videoinput');
+            if (videoInputDevice) {
+                VIDEO_CONSTRAINTS.video = {
+                    deviceId: {
+                        exact: videoInputDevice.deviceId
+                    }
+                };
+            }
+        }).catch(error => {
+            console.error('Error enumerating devices', error);
+        });
+        
+        console.log(VIDEO_CONSTRAINTS);
+        
+        navigator.mediaDevices.getUserMedia(VIDEO_CONSTRAINTS).then((stream) => {
+            setLocalStream(stream);
+            const peer = new Peer({ initiator: true, trickle: false, stream, config: { iceServers: ICE_SERVERS } });
 
-                connect(peer, email);
-            }).catch((error) => {
+            connect(peer, email);
+        }).catch((error) => {
             console.error("Error accessing media devices.", error)
         });
     };
